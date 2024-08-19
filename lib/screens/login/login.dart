@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:projeto_final_mobile/screens/login/bloc/login_bloc.dart';
+
 import 'package:projeto_final_mobile/config/theme.dart';
-import 'package:projeto_final_mobile/routes/router.dart';
+import 'package:projeto_final_mobile/config/routes/router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,27 +15,34 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
-    final String email = _emailController.text;
+    final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    if (email.isEmpty || password.isEmpty) {
+    if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos')),
       );
       return;
     }
 
-    // TODO: Substitua com sua lógica de autenticação
+    debugPrint('username: $username');
+
+    context.read<LoginBloc>().add(
+          PerformLoginEvent(
+            password: password,
+            username: username,
+          ),
+        );
   }
 
   @override
   void dispose() {
     // Libera os controladores quando não são mais necessários
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -77,9 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
-                        controller: _emailController,
+                        controller: _usernameController,
                         decoration: const InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'username',
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -115,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(context, Routes.register),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, Routes.register),
                         child: const Text(
                           'Não tem uma conta? Crie uma agora!',
                           style: TextStyle(
