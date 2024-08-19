@@ -1,0 +1,41 @@
+name: projeto_final_mobile
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  cupertino_icons: ^1.0.6
+  dio: ^5.5.0+1
+  get_it: ^7.7.0
+  equatable: ^2.0.5
+  dartz: ^0.10.1
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.6
+  shared_preferences: ^2.2.3
+  flutter_map: ^7.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  uses-material-design: true
+
+
+  assets: 
+    - assets/images/bgimg1.png
+    - assets/images/success_animate.gif
