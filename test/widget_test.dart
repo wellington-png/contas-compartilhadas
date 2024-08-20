@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projeto_final_mobile/app.dart';
+import 'package:conta/app.dart';
 
 
 void main() {

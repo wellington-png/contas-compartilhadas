@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:projeto_final_mobile/domain/models/entities/user_entity.dart';
-import 'package:projeto_final_mobile/domain/services/auth_service.dart';
+import 'package:conta/domain/models/entities/login_entity.dart';
+import 'package:conta/domain/services/auth_service.dart';
 
 part 'login_events.dart';
 part 'login_state.dart';

@@ -1,5 +1,6 @@
-import 'package:projeto_final_mobile/domain/models/entities/user_entity.dart';
-import 'package:projeto_final_mobile/domain/repositories/auth/auth_local_repository.dart';
+import 'package:conta/domain/models/entities/login_entity.dart';
+import 'package:conta/domain/repositories/auth/auth_local_repository.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthLocalRepositoryImpl implements AuthLocalRepository {
@@ -55,15 +56,15 @@ class AuthLocalRepositoryImpl implements AuthLocalRepository {
   }
 
   @override
-  Future<UserEntity> getUser() async {
+  Future<LoginEntity> getUser() async {
     await _validateSharedInstance();
     final username = _sharedPreferences!.getString(_usernameKey) ?? "";
     final password = _sharedPreferences!.getString(_passwordKey) ?? "";
-    return UserEntity(username: username, password: password);
+    return LoginEntity(username: username, password: password);
   }
 
   @override
-  Future<void> saveUser({required UserEntity user}) async {
+  Future<void> saveUser({required LoginEntity user}) async {
     await _validateSharedInstance();
     await _sharedPreferences!.setString(_usernameKey, user.username);
     await _sharedPreferences!.setString(_passwordKey, user.password);

@@ -1,6 +1,11 @@
+// import 'package:conta/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_final_mobile/config/theme.dart';
-import 'package:projeto_final_mobile/config/routes/router.dart';
+import 'package:conta/config/theme.dart';
+import 'package:conta/config/routes/router.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:conta/screens/register/bloc/register_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,20 +18,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   void _register() {
     final String name = _nameController.text;
     final String email = _emailController.text;
     final String password = _passwordController.text;
+    final String username = _usernameController.text;
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty || username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos')),
       );
       return;
     }
 
-    // TODO: Substitua com sua lógica de registro
+    context.read<RegisterBloc>().add(PerformRegisterEvent(
+          username: username,
+          password: password,
+          email: email,
+          name: name,
+        ));
   }
 
   @override
@@ -40,15 +52,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SizedBox.expand(
-            child: Image.asset(
-              'assets/images/bgimg1.png',
+      body: BlocListener<RegisterBloc, RegisterState>(
+        listener: (context, state) {
+          if (state.status == RegisterStatus.success) {
+            // context.read<LoginBloc>().add( PerformLoginEvent(
+            //       username: state.user!.username,
+            //       password: state.user!.password
+            // ));
+            Navigator.pushNamed(context, Routes.login);
+          }
+          if (state.status == RegisterStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Erro ao registrar, tente novamente'),
+              ),
+            );
+          }
+        },
+        child: Container(
+          margin: EdgeInsets.zero,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/bgimg1.png'),
               fit: BoxFit.cover,
             ),
           ),
-          Center(
+          child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Card(
@@ -95,6 +124,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Nome de Usuário',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextField(
                         controller: _passwordController,
                         decoration: const InputDecoration(
                           labelText: 'Senha',
@@ -105,23 +142,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryYellow,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                        child: BlocBuilder<RegisterBloc, RegisterState>(
+                            builder: (context, state) {
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryYellow,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
-                          ),
-                          onPressed: _register,
-                          child: const Text(
-                            'Registrar',
-                            style: TextStyle(
-                              color: AppColors.textBigTitle,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                            onPressed: state.status != RegisterStatus.loading
+                                ? _register
+                                : null,
+                            child: state.status == RegisterStatus.loading
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                                    'Registrar',
+                                    style: TextStyle(
+                                      color: AppColors.textBigTitle,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          );
+                        }),
                       ),
                       const SizedBox(height: 10),
                       TextButton(
@@ -140,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

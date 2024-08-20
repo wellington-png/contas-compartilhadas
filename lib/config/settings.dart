@@ -1,13 +1,27 @@
 class Settings {
   Settings();
 
-  static const String baseUrl = 'https://3357-45-164-56-38.ngrok-free.app/api/';
+  static const String baseUrl = 'http://192.168.3.22:8000/api/';
 }
 
 class API {
   API();
 
   static const String token = 'token/';
+
+  static const Map<String, String> user = {
+    'create': 'users/',
+    'update': 'users/',
+    'delete': 'users/',
+    'me': 'users/me/',
+  };
+
+  static const Map<String, String> group = {
+    'list': 'groups/',
+    'create': 'groups/',
+    'update': 'groups/',
+    'delete': 'groups/',
+  };
 }
 
 typedef ProjetoGetter<T> = T Function();

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:conta/screens/home/bloc/home_bloc.dart';
+
 import './widgets/avatar_header.dart';
 import './widgets/new_room_button.dart';
 import './widgets/room_list.dart';
@@ -12,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> groups = ["309 Roomies (4)", "We are family (3)"];
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -24,18 +28,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AvatarHeader(),
-              const SizedBox(height: 20),
-              const NewRoomButton(),
-              const SizedBox(height: 20),
+              AvatarHeader(),
+              SizedBox(height: 20),
+              NewRoomButton(),
+              SizedBox(height: 20),
               Expanded(
-                child: RoomList(groups: groups),
+                child: RoomList(),
               ),
             ],
           ),

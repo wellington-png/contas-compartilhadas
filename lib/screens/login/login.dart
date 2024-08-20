@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:projeto_final_mobile/screens/login/bloc/login_bloc.dart';
+import 'package:conta/screens/login/bloc/login_bloc.dart';
 
-import 'package:projeto_final_mobile/config/theme.dart';
-import 'package:projeto_final_mobile/config/routes/router.dart';
+import 'package:conta/config/theme.dart';
+import 'package:conta/config/routes/router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

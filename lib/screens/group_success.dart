@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_final_mobile/config/theme.dart';
-import 'package:projeto_final_mobile/config/routes/router.dart';
+import 'package:conta/config/theme.dart';
+import 'package:conta/config/routes/router.dart';
 
 class GroupSuccessScreen extends StatefulWidget {
   const GroupSuccessScreen({super.key});

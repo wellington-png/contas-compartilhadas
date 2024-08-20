@@ -1,6 +1,6 @@
-import 'package:projeto_final_mobile/domain/models/entities/user_entity.dart';
-import 'package:projeto_final_mobile/domain/repositories/auth/auth_local_repository.dart';
-import 'package:projeto_final_mobile/domain/repositories/auth/auth_remote_repository.dart';
+import 'package:conta/domain/models/entities/login_entity.dart';
+import 'package:conta/domain/repositories/auth/auth_local_repository.dart';
+import 'package:conta/domain/repositories/auth/auth_remote_repository.dart';
 
 class AuthService {
   final AuthLocalRepository _authLocalRepository;
@@ -18,7 +18,7 @@ class AuthService {
       (r) {
         _authLocalRepository.saveToken(r["access"]);
         _authLocalRepository.saveUser(
-          user: UserEntity(username: username, password: password),
+          user: LoginEntity(username: username, password: password),
         );
       },
     );
@@ -30,5 +30,5 @@ class AuthService {
 
   Future<String> get token async => await _authLocalRepository.getToken();
 
-  Future<UserEntity> get user async => await _authLocalRepository.getUser();
+  Future<LoginEntity> get user async => await _authLocalRepository.getUser();
 }

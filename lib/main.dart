@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_final_mobile/app.dart';
-import 'package:projeto_final_mobile/config/injection.dart';
+import 'package:conta/app.dart';
+import 'package:conta/config/injection.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

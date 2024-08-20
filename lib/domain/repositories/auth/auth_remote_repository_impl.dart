@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:projeto_final_mobile/config/exceptions.dart';
-import 'package:projeto_final_mobile/config/services/http_service.dart';
-import 'package:projeto_final_mobile/config/settings.dart';
-import 'package:projeto_final_mobile/domain/repositories/auth/auth_remote_repository.dart';
+
+import 'package:conta/config/exceptions.dart';
+import 'package:conta/config/services/http_service.dart';
+import 'package:conta/config/settings.dart';
+
+import 'package:conta/domain/repositories/auth/auth_remote_repository.dart';
 
 class AuthRemoteRepositoryImpl implements AuthRemoteRepository {
   final HttpService _httpService;

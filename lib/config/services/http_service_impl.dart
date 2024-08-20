@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:projeto_final_mobile/config/injection.dart';
-import 'package:projeto_final_mobile/config/services/http_service.dart';
-import 'package:projeto_final_mobile/config/settings.dart';
+import 'package:conta/config/injection.dart';
+import 'package:conta/config/services/http_service.dart';
+import 'package:conta/config/settings.dart';
 
-import 'package:projeto_final_mobile/domain/services/auth_service.dart';
+import 'package:conta/domain/services/auth_service.dart';
 
 class HttpServiceImpl implements HttpService {
   late Dio _dio;
