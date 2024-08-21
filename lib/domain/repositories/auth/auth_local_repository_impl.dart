@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthLocalRepositoryImpl implements AuthLocalRepository {
   static const _tokenKey = "token";
-  static const _usernameKey = "username";
+  static const _emailKey = "email";
   static const _passwordKey = "password";
 
   SharedPreferences? _sharedPreferences;
@@ -51,22 +51,22 @@ class AuthLocalRepositoryImpl implements AuthLocalRepository {
   @override
   Future<void> deleteUser() async {
     await _validateSharedInstance();
-    await _sharedPreferences!.remove(_usernameKey);
+    await _sharedPreferences!.remove(_emailKey);
     await _sharedPreferences!.remove(_passwordKey);
   }
 
   @override
   Future<LoginEntity> getUser() async {
     await _validateSharedInstance();
-    final username = _sharedPreferences!.getString(_usernameKey) ?? "";
+    final email = _sharedPreferences!.getString(_emailKey) ?? "";
     final password = _sharedPreferences!.getString(_passwordKey) ?? "";
-    return LoginEntity(username: username, password: password);
+    return LoginEntity(email: email, password: password);
   }
 
   @override
   Future<void> saveUser({required LoginEntity user}) async {
     await _validateSharedInstance();
-    await _sharedPreferences!.setString(_usernameKey, user.username);
+    await _sharedPreferences!.setString(_emailKey, user.email);
     await _sharedPreferences!.setString(_passwordKey, user.password);
   }
 }

@@ -6,6 +6,7 @@ import 'package:conta/config/injection.dart';
 
 import 'package:conta/screens/group_success.dart';
 import 'package:conta/screens/initial/initial_screen.dart';
+import 'package:conta/screens/group_settings/group_settings.dart';
 
 import 'package:conta/screens/home/home.dart';
 import 'package:conta/screens/home/bloc/home_bloc.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String groupSuccess = '/group-success';
+  static const String groupSettings = '/group-settings';
 
   static bool falsePredicate(Route<dynamic> route) => false;
 
@@ -41,14 +43,19 @@ class Routes {
         home: (context) => MultiBlocProvider(
               providers: [
                 BlocProvider(
-                    create: (context) => LoginBloc(authService: getIt())),
+                  create: (context) => LoginBloc(authService: getIt()),
+                ),
                 BlocProvider(
                   create: (context) => HomeBloc(
                     groupService: getIt(),
-                  )..add(const GetGroupsEvent()),
+                    userService: getIt(),
+                  )
+                    ..add(const GetGroupsEvent())
+                    ..add(const GetUserMeEvent()),
                 ),
               ],
               child: const HomeScreen(),
             ),
+        groupSettings: (context) => const GroupSettings(),
       };
 }

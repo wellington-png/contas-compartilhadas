@@ -1,5 +1,5 @@
-import 'package:conta/domain/models/dto/group_dto.dart';
-import 'package:conta/domain/models/entities/group_entity.dart';
+import 'package:conta/domain/models/dto/group/group_dto.dart';
+import 'package:conta/domain/models/entities/group/group_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -24,7 +24,9 @@ class GroupRepositoryImpl implements GroupRepository {
       );
       return response.statusCode == 200
           ? Right(
-              (response.data as List).map((e) => GroupDto.fromJson(e)).toList(),
+              response.data
+                  .map<GroupEntity>((e) => GroupDto.fromJson(e))
+                  .toList(),
             )
           : Left(ProjetoException(message: "Erro ao criar usuarios"));
     } on DioException catch (e) {

@@ -8,9 +8,9 @@ class AuthService {
 
   AuthService(this._authLocalRepository, this._authRepository);
 
-  Future<void> login({required String username, required String password}) async {
+  Future<void> login({required String email, required String password}) async {
     final data = await _authRepository.login(
-      username: username,
+      email: email,
       password: password,
     );
     data.fold(
@@ -18,7 +18,7 @@ class AuthService {
       (r) {
         _authLocalRepository.saveToken(r["access"]);
         _authLocalRepository.saveUser(
-          user: LoginEntity(username: username, password: password),
+          user: LoginEntity(email: email, password: password),
         );
       },
     );

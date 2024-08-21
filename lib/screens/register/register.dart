@@ -18,15 +18,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
 
   void _register() {
     final String name = _nameController.text;
     final String email = _emailController.text;
     final String password = _passwordController.text;
-    final String username = _usernameController.text;
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty || username.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty || email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos')),
       );
@@ -34,9 +32,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     context.read<RegisterBloc>().add(PerformRegisterEvent(
-          username: username,
-          password: password,
           email: email,
+          password: password,
           name: name,
         ));
   }
@@ -56,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listener: (context, state) {
           if (state.status == RegisterStatus.success) {
             // context.read<LoginBloc>().add( PerformLoginEvent(
-            //       username: state.user!.username,
+            //       email: state.user!.email,
             //       password: state.user!.password
             // ));
             Navigator.pushNamed(context, Routes.login);
@@ -119,14 +116,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _emailController,
                         decoration: const InputDecoration(
                           labelText: 'Email',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: _usernameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nome de Usuário',
                           border: OutlineInputBorder(),
                         ),
                       ),

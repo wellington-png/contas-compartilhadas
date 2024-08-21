@@ -1,29 +1,34 @@
 import 'package:equatable/equatable.dart';
 import 'package:conta/config/settings.dart';
 
-class LoginEntity extends Equatable {
+class UserRegisterEntity extends Equatable {
   final String email;
   final String password;
+  final String name;
 
-  const LoginEntity({
+  const UserRegisterEntity({
     required this.email,
     required this.password,
+    required this.name,
   });
 
-  const LoginEntity.empty()
+  const UserRegisterEntity.empty()
       : email = "",
-        password = "";
+        password = "",
+        name = "";
 
-  LoginEntity copyWith({
+  UserRegisterEntity copyWith({
     ProjetoGetter<String>? email,
     ProjetoGetter<String>? password,
+    ProjetoGetter<String>? name,
   }) {
-    return LoginEntity(
+    return UserRegisterEntity(
       email: email != null ? email() : this.email,
       password: password != null ? password() : this.password,
+      name: name != null ? name() : this.name,
     );
   }
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, name];
 }

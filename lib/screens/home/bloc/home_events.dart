@@ -11,3 +11,10 @@ class GetGroupsEvent extends HomeEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetUserMeEvent extends HomeEvent {
+  const GetUserMeEvent();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -1,4 +1,4 @@
-import 'package:conta/domain/models/entities/group_entity.dart';
+import 'package:conta/domain/models/entities/group/group_entity.dart';
 
 extension GroupDto on GroupEntity {
   static GroupEntity fromJson(Map<String, dynamic> json) {

@@ -15,26 +15,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
-    final String username = _usernameController.text;
+    final String email = _emailController.text;
     final String password = _passwordController.text;
 
-    if (username.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos')),
       );
       return;
     }
 
-    debugPrint('username: $username');
+    debugPrint('email: $email');
 
     context.read<LoginBloc>().add(
           PerformLoginEvent(
             password: password,
-            username: username,
+            email: email,
           ),
         );
   }
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     // Libera os controladores quando não são mais necessários
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -89,9 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
-                        controller: _usernameController,
+                        controller: _emailController,
                         decoration: const InputDecoration(
-                          labelText: 'username',
+                          labelText: 'email',
                           border: OutlineInputBorder(),
                         ),
                       ),

@@ -6,7 +6,7 @@ import 'package:local_auth/local_auth.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
-  static const String _urlAsset = "assets/images/bgimg1.png";
+  // static const String _urlAsset = "assets/images/bgimg1.png";
   static const String _buttonText = "ACESSAR";
 
   @override
@@ -23,7 +23,7 @@ class _InitialScreenState extends State<InitialScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(InitialScreen._urlAsset, height: 200),
+            // Image.asset(InitialScreen._urlAsset, height: 200),
             const SizedBox(height: 20),
             BlocConsumer<LoginBloc, LoginState>(
               listener: (context, state) {
@@ -46,7 +46,7 @@ class _InitialScreenState extends State<InitialScreen> {
                   onPressed: () async {
                     NavigatorState navigator = Navigator.of(context);
                     if (state.user == null ||
-                        state.user!.username.isEmpty ||
+                        state.user!.email.isEmpty ||
                         state.user!.password.isEmpty) {
                       navigator.pushNamed(Routes.login);
                       return;
@@ -62,7 +62,7 @@ class _InitialScreenState extends State<InitialScreen> {
                       if (didAuthenticate) {
                         loginBloc.add(
                           PerformLoginEvent(
-                            username: state.user!.username,
+                            email: state.user!.email,
                             password: state.user!.password,
                           ),
                         );

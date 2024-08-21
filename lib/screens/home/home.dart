@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:conta/screens/home/bloc/home_bloc.dart';
-
 import './widgets/avatar_header.dart';
 import './widgets/new_room_button.dart';
 import './widgets/room_list.dart';

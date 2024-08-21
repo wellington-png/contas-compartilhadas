@@ -1,5 +1,7 @@
-import 'package:conta/domain/models/dto/user_dto.dart';
-import 'package:conta/domain/models/entities/user_entity.dart';
+import 'package:conta/domain/models/dto/user/user_dto.dart';
+import 'package:conta/domain/models/dto/user/user_register_dto.dart';
+import 'package:conta/domain/models/entities/user/user_entity.dart';
+import 'package:conta/domain/models/entities/user/user_register_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -16,17 +18,15 @@ class UserRepositoryImpl implements UserRepository {
       : _httpService = httpService;
 
   @override
-  Future<Either<ProjetoException, UserEntity>> register({
-    required String username,
-    required String password,
+  Future<Either<ProjetoException, UserRegisterEntity>> register({
     required String email,
+    required String password,
     required String name,
   }) async {
     try {
       final data = {
-        "username": username,
-        "password": password,
         "email": email,
+        "password": password,
         "name": name,
       };
 
@@ -35,6 +35,23 @@ class UserRepositoryImpl implements UserRepository {
         data: data,
         hasFile: false,
         isAuth: false,
+      );
+      return response.statusCode == 201
+          ? Right(UserRegisterDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao criar usuarios"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, UserEntity>> me() async {
+    try {
+      Response response = await _httpService.get(
+        path: API.user['me']!,
+        isAuth: true,
       );
       return response.statusCode == 200
           ? Right(UserDto.fromJson(response.data))

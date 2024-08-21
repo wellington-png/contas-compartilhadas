@@ -15,12 +15,12 @@ class AuthRemoteRepositoryImpl implements AuthRemoteRepository {
 
   @override
   Future<Either<ProjetoException, Map<String, dynamic>>> login({
-    required String username,
+    required String email,
     required String password,
   }) async {
     try {
       final data = {
-        "username": username,
+        "email": email,
         "password": password,
       };
 

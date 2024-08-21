@@ -1,4 +1,4 @@
-import 'package:conta/domain/models/entities/group_entity.dart';
+import 'package:conta/domain/models/entities/group/group_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:conta/config/exceptions.dart';
 

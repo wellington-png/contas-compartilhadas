@@ -4,7 +4,7 @@ enum RegisterStatus { initial, loading, success, failure }
 
 class RegisterState extends Equatable {
   final RegisterStatus status;
-  final UserEntity? user;
+  final UserRegisterEntity? user;
   final String? errorMessage;
 
   const RegisterState({this.status = RegisterStatus.initial, this.user,this.errorMessage});

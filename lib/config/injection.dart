@@ -16,7 +16,6 @@ import 'package:conta/domain/repositories/group/group_repository_impl.dart';
 import 'package:conta/domain/repositories/group/group_repository.dart';
 import 'package:conta/domain/services/group_service.dart';
 
-
 var getIt = GetIt.I;
 
 void setupInjection() {
@@ -52,8 +51,6 @@ void setupInjection() {
   );
 
   getIt.registerLazySingleton<GroupService>(
-    () => GroupService(
-      getIt(),
-    ),
+    () => GroupService(getIt()),
   );
 }

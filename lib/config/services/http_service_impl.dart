@@ -10,9 +10,9 @@ class HttpServiceImpl implements HttpService {
 
   Future<void> _refreshToken() async {
     await getIt<AuthService>().logout();
-    String username = (await getIt<AuthService>().user).username;
+    String email = (await getIt<AuthService>().user).email;
     String password = (await getIt<AuthService>().user).password;
-    await getIt<AuthService>().login(username: username, password: password);
+    await getIt<AuthService>().login(email: email, password: password);
   }
 
   HttpServiceImpl() {
