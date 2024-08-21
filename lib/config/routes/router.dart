@@ -9,7 +9,8 @@ import 'package:conta/screens/initial/initial_screen.dart';
 import 'package:conta/screens/group_settings/group_settings.dart';
 
 import 'package:conta/screens/home/home.dart';
-import 'package:conta/screens/home/bloc/home_bloc.dart';
+import 'package:conta/screens/home/bloc/user_bloc.dart';
+import 'package:conta/screens/home/bloc/groups_bloc.dart';
 
 import 'package:conta/screens/login/login.dart';
 import 'package:conta/screens/login/bloc/login_bloc.dart';
@@ -46,12 +47,12 @@ class Routes {
                   create: (context) => LoginBloc(authService: getIt()),
                 ),
                 BlocProvider(
-                  create: (context) => HomeBloc(
-                    groupService: getIt(),
-                    userService: getIt(),
-                  )
-                    ..add(const GetGroupsEvent())
+                  create: (context) => UserBloc(userService: getIt())
                     ..add(const GetUserMeEvent()),
+                ),
+                BlocProvider(
+                  create: (context) => GroupsBloc(groupService: getIt())
+                    ..add(const GetGroupsEvent()),
                 ),
               ],
               child: const HomeScreen(),

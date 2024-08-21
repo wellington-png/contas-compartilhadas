@@ -1,3 +1,4 @@
+import 'package:conta/config/assets/avatar.dart';
 import 'package:equatable/equatable.dart';
 import 'package:conta/config/settings.dart';
 
@@ -19,6 +20,7 @@ class UserEntity extends Equatable {
   final String name;
   final double fixedIncome;
   final AccountType accountType;
+  final Avatar avatar;
 
   const UserEntity({
     required this.email,
@@ -26,6 +28,7 @@ class UserEntity extends Equatable {
     required this.fixedIncome,
     required this.accountType,
     required this.id,
+    required this.avatar,
   });
 
   const UserEntity.empty()
@@ -33,7 +36,9 @@ class UserEntity extends Equatable {
         name = "",
         fixedIncome = 0.0,
         accountType = AccountType.simple,
-        id = 0;
+        id = 0,
+        avatar = Avatar.defaultAvatar
+        ;
 
   UserEntity copyWith({
     ProjetoGetter<String>? email,
@@ -41,6 +46,7 @@ class UserEntity extends Equatable {
     ProjetoGetter<double>? fixedIncome,
     ProjetoGetter<String>? accountType,
     ProjetoGetter<int>? id,
+    ProjetoGetter<Avatar>? avatar,
   }) {
     return UserEntity(
       email: email != null ? email() : this.email,
@@ -52,9 +58,10 @@ class UserEntity extends Equatable {
             )
           : this.accountType,
       id: id != null ? id() : this.id,
+      avatar: avatar != null ? avatar() : this.avatar,
     );
   }
 
   @override
-  List<Object?> get props => [email, name, fixedIncome, accountType, id];
+  List<Object?> get props => [email, name, fixedIncome, accountType, id, avatar];
 }

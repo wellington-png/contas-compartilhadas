@@ -1,4 +1,4 @@
-import 'package:conta/screens/home/bloc/home_bloc.dart';
+import 'package:conta/screens/home/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,7 +7,7 @@ class AvatarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Row(
           children: [

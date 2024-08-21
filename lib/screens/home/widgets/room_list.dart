@@ -1,5 +1,5 @@
 import 'package:conta/config/theme.dart';
-import 'package:conta/screens/home/bloc/home_bloc.dart';
+import 'package:conta/screens/home/bloc/groups_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,7 +8,7 @@ class RoomList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<GroupsBloc, GroupsState>(
       builder: (context, state) {
       return Container(
         decoration: BoxDecoration(

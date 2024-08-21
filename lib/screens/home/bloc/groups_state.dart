@@ -1,18 +1,16 @@
-part of 'home_bloc.dart';
+part of 'groups_bloc.dart';
 
-enum HomeStatus { initial, loading, success, failure }
+enum GroupsStatus { initial, loading, success, failure }
 
-class HomeState extends Equatable {
-  final HomeStatus status;
+class GroupsState extends Equatable {
+  final GroupsStatus status;
   final List<GroupEntity>? groups;
   final String? errorMessage;
-  final UserEntity? user;
 
-  const HomeState({
-    this.status = HomeStatus.initial,
+  const GroupsState({
+    this.status = GroupsStatus.initial,
     this.groups,
     this.errorMessage,
-    this.user,
   });
 
   @override
@@ -20,20 +18,17 @@ class HomeState extends Equatable {
         status,
         groups,
         errorMessage,
-        user,
       ];
 
-  HomeState copyWith({
-    HomeStatus? status,
+  GroupsState copyWith({
+    GroupsStatus? status,
     List<GroupEntity>? groups,
     String? errorMessage,
-    UserEntity? user,
   }) {
-    return HomeState(
+    return GroupsState(
       status: status ?? this.status,
       groups: groups ?? this.groups,
       errorMessage: errorMessage ?? this.errorMessage,
-      user: user ?? this.user,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:conta/config/assets/avatar.dart';
 import 'package:conta/domain/models/entities/user/user_entity.dart';
 
 extension UserDto on UserEntity {
@@ -10,6 +11,7 @@ extension UserDto on UserEntity {
       accountType: AccountType.values.firstWhere(
         (element) => element.value == json['account_type'],
       ),
+      avatar: Avatar.getByIdentifier(json['avatar']),
     );
   }
 
@@ -20,6 +22,7 @@ extension UserDto on UserEntity {
       'name': name,
       'fixed_income': fixedIncome,
       'account_type': accountType.value,
+      'avatar': avatar.identifier,
     };
   }
 }
