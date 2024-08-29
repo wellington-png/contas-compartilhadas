@@ -37,8 +37,7 @@ class UserEntity extends Equatable {
         fixedIncome = 0.0,
         accountType = AccountType.simple,
         id = 0,
-        avatar = Avatar.defaultAvatar
-        ;
+        avatar = Avatar.defaultAvatar;
 
   UserEntity copyWith({
     ProjetoGetter<String>? email,
@@ -63,5 +62,6 @@ class UserEntity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [email, name, fixedIncome, accountType, id, avatar];
+  List<Object?> get props =>
+      [email, name, fixedIncome, accountType, id, avatar];
 }

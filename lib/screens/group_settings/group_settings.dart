@@ -65,10 +65,10 @@ class _GroupSettingsState extends State<GroupSettings> {
         leading: const TextButton(onPressed: null, child: Text(_leadingText)),
         leadingWidth: 70,
         centerTitle: true,
-        actions: const [
+        actions:  [
           TextButton(
-            onPressed: null,
-            child: Text(
+            onPressed: () => Navigator.of(context).pushNamed('/home'),
+            child: const Text(
               _actionSaveText,
               style: TextStyle(
                   color: AppColors.textBigTitle, fontWeight: FontWeight.bold),

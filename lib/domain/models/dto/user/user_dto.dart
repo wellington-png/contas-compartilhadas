@@ -11,7 +11,7 @@ extension UserDto on UserEntity {
       accountType: AccountType.values.firstWhere(
         (element) => element.value == json['account_type'],
       ),
-      avatar: Avatar.getByIdentifier(json['avatar']),
+      avatar: Avatar.woman
     );
   }
 

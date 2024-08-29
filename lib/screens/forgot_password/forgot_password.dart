@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:conta/screens/login/bloc/login_bloc.dart';
 import 'package:conta/config/theme.dart';
 import 'package:conta/config/routes/router.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
-  void _login() {
+  void _resetPassword() {
     final String email = _emailController.text;
-    final String password = _passwordController.text;
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, preencha todos os campos')),
+        const SnackBar(content: Text('Por favor, preencha o campo de e-mail')),
       );
       return;
     }
 
-    debugPrint('email: $email');
+    // context.read<LoginBloc>().add(
+    //       ForgotPasswordEvent(
+    //         email: email,
+    //       ),
+    //     );
 
-    context.read<LoginBloc>().add(
-          PerformLoginEvent(
-            password: password,
-            email: email,
-          ),
-        );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Se um usuário com este e-mail existir, ele receberá um link para redefinir a senha.')),
+    );
   }
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -68,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       const Text(
-                        'Bem vindo',
+                        'Esqueceu a Senha',
                         style: TextStyle(
                           color: AppColors.textBigTitle,
                           fontSize: 30,
@@ -77,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Entre para continuar',
+                        'Digite seu e-mail para continuar',
                         style: TextStyle(
                           color: AppColors.textBigTitle,
                           fontSize: 20,
@@ -92,15 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Senha',
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -110,9 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          onPressed: _login,
+                          onPressed: _resetPassword,
                           child: const Text(
-                            'Login',
+                            'Redefinir Senha',
                             style: TextStyle(
                               color: AppColors.textBigTitle,
                               fontSize: 18,
@@ -124,20 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                       TextButton(
                         onPressed: () =>
-                            Navigator.pushNamed(context, Routes.register),
+                            Navigator.pushNamed(context, Routes.login),
                         child: const Text(
-                          'Não tem uma conta? Crie uma agora!',
-                          style: TextStyle(
-                            color: Color(0xFF8F8F8F),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, '/forgot-password'),
-                        child: const Text(
-                          'Esqueceu a senha?',
+                          'Voltar ao Login',
                           style: TextStyle(
                             color: Color(0xFF8F8F8F),
                           ),

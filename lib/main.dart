@@ -7,4 +7,3 @@ void main() {
   setupInjection();
   runApp(const MyApp());
 }
-

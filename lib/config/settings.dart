@@ -1,7 +1,7 @@
 class Settings {
   Settings();
 
-  static const String baseUrl = 'http://192.168.3.22:8000/api/';
+  static const String baseUrl = 'https://wellington2.thunder.dev.br/api/';
 }
 
 class API {

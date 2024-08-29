@@ -19,20 +19,12 @@ class BottomNavBar extends StatelessWidget {
           label: 'Account',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.post_add),
-          label: 'Post',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.add_circle_outline),
           label: 'Add',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.list),
           label: 'Activity',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'My Room',
         ),
       ],
       currentIndex: selectedIndex,
