@@ -8,7 +8,7 @@ class NewRoomButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: () => Navigator.of(context).pushNamed('/group'),
       icon: const Icon(Icons.add),
-      label: const Text('New Room'),
+      label: const Text('Novo Grupo'),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.lightBlueAccent,
         padding: const EdgeInsets.symmetric(vertical: 15),

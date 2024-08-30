@@ -7,17 +7,17 @@ extension UserDto on UserEntity {
       id: json['id'] ?? 0,
       email: json['email'] ?? "",
       name: json['name'] ?? "",
-      fixedIncome: double.tryParse(json['fixed_income']) ?? 0.0,
+      fixedIncome:
+          double.tryParse(json['fixed_income']?.toString() ?? '') ?? 0.0,
       accountType: AccountType.values.firstWhere(
         (element) => element.value == json['account_type'],
       ),
-      avatar: Avatar.woman
+      avatar: Avatar.getByIdentifier(json['avatar'] ?? 'defaultAvatar'),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'email': email,
       'name': name,
       'fixed_income': fixedIncome,

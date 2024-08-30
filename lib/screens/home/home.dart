@@ -1,4 +1,3 @@
-import 'package:conta/screens/home/widgets/draggable_scrollable_sheet_widget.dart';
 import 'package:flutter/material.dart';
 
 import './widgets/avatar_header.dart';
@@ -29,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           SafeArea(
             child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -40,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 20),
                   Expanded(
                     child: RoomList(),
-                  ),
+                  ),                  
                 ],
               ),
             ),

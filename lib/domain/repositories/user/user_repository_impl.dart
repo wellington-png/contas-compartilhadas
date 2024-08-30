@@ -1,3 +1,4 @@
+import 'package:conta/config/assets/avatar.dart';
 import 'package:conta/domain/models/dto/user/user_dto.dart';
 import 'package:conta/domain/models/dto/user/user_register_dto.dart';
 import 'package:conta/domain/models/entities/user/user_entity.dart';
@@ -51,6 +52,24 @@ class UserRepositoryImpl implements UserRepository {
     try {
       Response response = await _httpService.get(
         path: API.user['me']!,
+        isAuth: true,
+      );
+      return response.statusCode == 200
+          ? Right(UserDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao criar usuarios"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, UserEntity>> update(UserEntity user) async {
+    try {
+      Response response = await _httpService.put(
+        path: "${API.user['update']!}/${user.id}/",
+        data: user.toJson(),
         isAuth: true,
       );
       return response.statusCode == 200

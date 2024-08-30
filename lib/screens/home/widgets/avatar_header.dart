@@ -1,7 +1,7 @@
-import 'package:conta/screens/home/bloc/user_bloc.dart';
+import 'package:conta/screens/home/bloc/user/user_bloc.dart';
+import 'package:conta/screens/home/widgets/edit_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import './draggable_scrollable_sheet_widget.dart'; // Atualize o caminho conforme necessário
 
 class AvatarHeader extends StatefulWidget {
   const AvatarHeader({super.key});
@@ -11,63 +11,78 @@ class AvatarHeader extends StatefulWidget {
 }
 
 class _AvatarHeaderState extends State<AvatarHeader> {
-  bool isExpanded = false;
-
-  void _toggleExpand() {
-    setState(() {
-      isExpanded = !isExpanded;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-      return Row(
-        children: [
-          const CircleAvatar(
-            radius: 30,
-            backgroundImage: AssetImage('assets/images/bgimg1.png'),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state.status == UserStatus.success && state.user != null) {
+          final user = state.user!;
+          final avatarPath = user.avatar.fullPath;
+          return Row(
             children: [
-              Text(
-                state.user?.name ?? '',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage(avatarPath),
               ),
-              const Text(
-                'ID #0309',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user.name,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Text(
+                    'ID #${user.id.toString().padLeft(4, '0')}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Text(
+                    'Renda Fixa: R\$ ${user.fixedIncome.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    barrierColor: Colors.transparent,
+                    backgroundColor: Colors.white,
+                    builder: (BuildContext modalContext) {
+                      return BlocProvider.value(
+                        value: BlocProvider.of<UserBloc>(context),
+                        child: const EditUser(),
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(Icons.settings),
+                color: Colors.grey,
               ),
             ],
-          ),
-          const Spacer(),
-          IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                barrierColor: Colors.transparent,
-                isScrollControlled: false,
-                backgroundColor: Colors.transparent,
-
-                builder: (context) {
-                  return const DraggableScrollableSheetWidget();
-                },
-              );
-            },
-            icon: const Icon(Icons.settings),
-            color: Colors.grey,
-          ),
-        ],
-      );
-    });
+          );
+        } else if (state.status == UserStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return const Center(
+            child: Text(
+              'Erro ao carregar usuário',
+              style: TextStyle(color: Colors.red),
+            ),
+          );
+        }
+      },
+    );
   }
 }

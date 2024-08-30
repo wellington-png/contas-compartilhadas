@@ -10,4 +10,5 @@ abstract class UserRepository {
     required String name,
   });
   Future<Either<ProjetoException, UserEntity>> me();
+  Future<Either<ProjetoException, UserEntity>> update(UserEntity user);
 }

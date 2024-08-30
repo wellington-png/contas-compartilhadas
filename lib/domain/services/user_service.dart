@@ -24,4 +24,8 @@ class UserService {
   Future<Either<ProjetoException, UserEntity>> me() async {
     return await _userRepository.me();
   }
+
+  Future<Either<ProjetoException, UserEntity>> update(UserEntity user) async {
+    return await _userRepository.update(user);
+  }
 }

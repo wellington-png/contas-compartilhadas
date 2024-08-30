@@ -42,3 +42,18 @@ flutter:
     - assets/images/bgimg1.png
     - assets/images/success_animate.gif
     - assets/images/room-banner.png
+    - assets/images/avatars/baleia.png
+    - assets/images/avatars/camarao.png
+    - assets/images/avatars/caracol.png
+    - assets/images/avatars/cavalo-marinho.png
+    - assets/images/avatars/gato.png
+    - assets/images/avatars/homem1.png
+    - assets/images/avatars/mulher1.png
+    - assets/images/avatars/mulher2.png
+    - assets/images/avatars/mulher3.png
+    - assets/images/avatars/passaro.png
+    - assets/images/avatars/pato.png
+    - assets/images/avatars/porco.png
+    - assets/images/avatars/rato.png
+    - assets/images/avatars/zebra.png
+  

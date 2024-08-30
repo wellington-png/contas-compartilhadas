@@ -7,7 +7,7 @@ class RegisterState extends Equatable {
   final UserRegisterEntity? user;
   final String? errorMessage;
 
-  const RegisterState({this.status = RegisterStatus.initial, this.user,this.errorMessage});
+  const RegisterState({this.status = RegisterStatus.initial, this.user, this.errorMessage});
 
   @override
   List<Object?> get props => [status, user, errorMessage];

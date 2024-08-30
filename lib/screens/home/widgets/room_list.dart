@@ -1,5 +1,5 @@
 import 'package:conta/config/theme.dart';
-import 'package:conta/screens/home/bloc/groups_bloc.dart';
+import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class RoomList extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'Lista de Grupos',
+                'Meus Grupos',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -55,10 +55,14 @@ class RoomList extends StatelessWidget {
                               color: AppColors.textBigTitle,
                             ),
                           ),
-                          trailing: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.textBigTitle,
-                            size: 16,
+                          trailing: IconButton(
+                            icon: const Icon(Icons.arrow_forward_ios),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                '/group',
+                                arguments: state.groups![index],
+                              );
+                            },
                           ),
                         );
                       },

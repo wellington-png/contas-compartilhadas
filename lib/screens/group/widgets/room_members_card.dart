@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoomMembersCard extends StatelessWidget {
@@ -21,21 +22,13 @@ class RoomMembersCard extends StatelessWidget {
                   backgroundImage: AssetImage('assets/images/room-banner.png'),
                 ),
                 const SizedBox(width: 8),
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/room-banner.png'),
-                ),
-                const SizedBox(width: 8),
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/room-banner.png'),
-                ),
-                const SizedBox(width: 8),
                 CircleAvatar(
                   backgroundColor: Colors.grey[200],
                   child: const Icon(Icons.add, color: Colors.blue),
                 ),
               ],
             ),
-            const Text('Mebros do grupo'),
+            const Expanded(child:  Text('Membros')),
           ],
         ),
       ),

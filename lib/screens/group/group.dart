@@ -1,3 +1,4 @@
+import 'package:conta/config/routes/router.dart';
 import 'package:conta/screens/group/widgets/debt_status_card.dart';
 import 'package:conta/screens/group/widgets/invite_via_email_card.dart';
 import 'package:conta/screens/group/widgets/overall_balance_card.dart';
@@ -18,9 +19,7 @@ class GroupScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.grey),
-            onPressed: () {
-              // Ação do botão de configurações
-            },
+            onPressed: () => Navigator.of(context).pushNamed(Routes.groupSettings),
           ),
         ],
       ),
