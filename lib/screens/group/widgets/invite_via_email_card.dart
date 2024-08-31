@@ -1,64 +1,155 @@
+import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InviteViaEmailCard extends StatelessWidget {
   const InviteViaEmailCard({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  void _showQRCodeModal(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Invite via Email',
+                  'QR Code',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                IconButton(
-                  icon: Icon(Icons.qr_code, size: 30, color: Colors.grey[700]),
+                const SizedBox(height: 20),
+                Container(
+                  width: 150,
+                  height: 150,
+                  color: Colors.grey[300],
+                  child: const Center(child: Text('QR Code Placeholder')),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
                   onPressed: () {
-                    // Ação para gerar ou exibir QR code
+                    Navigator.of(context).pop();
                   },
+                  child: const Text('Close'),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            Row(
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+
+    return BlocConsumer<InviteBloc, InviteState>(
+      listener: (context, state) {
+        if (state.status == InviteStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Convite enviado com sucesso!'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          emailController.clear();
+        } else if (state.status == InviteStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Erro: ${state.errorMessage}'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+          final int groupId = ModalRoute.of(context)!.settings.arguments as int;
+        }
+      },
+      builder: (context, state) {
+        return Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Enter email address',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Convite via Email',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+                    IconButton(
+                      icon: const Icon(Icons.qr_code,
+                          size: 30, color: Colors.grey),
+                      onPressed: () {
+                        _showQRCodeModal(context);
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                IconButton(
-                  icon: const Icon(Icons.send, size: 30, color: Colors.blue),
-                  onPressed: () {
-                    // Ação para enviar o convite por email
-                  },
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Entre com endereço de email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon:
+                          const Icon(Icons.send, size: 30, color: Colors.blue),
+                      onPressed: () {
+                        String email = emailController.text.trim();
+                        if (email.isNotEmpty) {
+                          final int groupId =
+                              ModalRoute.of(context)!.settings.arguments as int;
+                          final inviteBloc =
+                              BlocProvider.of<InviteBloc>(context);
+                          inviteBloc
+                              .add(SendInviteEvent(groupId: groupId, email: email));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Por favor, insira um endereço de email válido.'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

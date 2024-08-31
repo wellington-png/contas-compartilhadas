@@ -1,15 +1,28 @@
+import 'package:conta/config/routes/router.dart';
 import 'package:conta/config/theme.dart';
 import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RoomList extends StatelessWidget {
+class RoomList extends StatefulWidget {
   const RoomList({super.key});
 
   @override
+  State<RoomList> createState() => _RoomListState();
+}
+
+class _RoomListState extends State<RoomList> {
+  // void _getGroupDetails(int id) {
+  //   context.read<GroupDetailsBloc>().add(
+  //         GetGroupDetailsEvent(
+  //           id: id,
+  //         ),
+  //       );
+  // }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupsBloc, GroupsState>(
-      builder: (context, state) {
+    return BlocBuilder<GroupsBloc, GroupsState>(builder: (context, state) {
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -58,10 +71,10 @@ class RoomList extends StatelessWidget {
                           trailing: IconButton(
                             icon: const Icon(Icons.arrow_forward_ios),
                             onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                '/group',
-                                arguments: state.groups![index],
-                              );
+                              // _getGroupDetails(state.groups![index].id);
+                              Future.delayed(const Duration(milliseconds: 500), () {
+                                Navigator.of(context).pushNamed(Routes.group, arguments: state.groups![index].id);
+                              });
                             },
                           ),
                         );

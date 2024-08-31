@@ -1,4 +1,3 @@
-import 'package:conta/config/assets/avatar.dart';
 import 'package:conta/domain/models/dto/user/user_dto.dart';
 import 'package:conta/domain/models/dto/user/user_register_dto.dart';
 import 'package:conta/domain/models/entities/user/user_entity.dart';
@@ -32,7 +31,7 @@ class UserRepositoryImpl implements UserRepository {
       };
 
       Response response = await _httpService.post(
-        path: API.user['create']!,
+        path: API.userCreate,
         data: data,
         hasFile: false,
         isAuth: false,
@@ -51,7 +50,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<ProjetoException, UserEntity>> me() async {
     try {
       Response response = await _httpService.get(
-        path: API.user['me']!,
+        path: API.userMe,
         isAuth: true,
       );
       return response.statusCode == 200
@@ -68,7 +67,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<ProjetoException, UserEntity>> update(UserEntity user) async {
     try {
       Response response = await _httpService.put(
-        path: "${API.user['update']!}/${user.id}/",
+        path: API.userUpdate(user.id),
         data: user.toJson(),
         isAuth: true,
       );

@@ -1,5 +1,8 @@
 import 'package:conta/screens/expenses/expenses.dart';
+import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
+import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
 import 'package:conta/screens/group_statistics/group_statistics.dart';
+import 'package:conta/screens/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +15,6 @@ import 'package:conta/screens/group/group.dart';
 import 'package:conta/screens/new_expense/new_expense.dart';
 import 'package:conta/screens/forgot_password/forgot_password.dart';
 
-import 'package:conta/screens/home/home.dart';
 import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 
@@ -33,10 +35,11 @@ class Routes {
   static const String forgotPassword = '/forgot-password';
   static const String groupStatistics = '/group-statistics';
   static const String expenses = '/expenses';
+  static const String navigation = '/navigation';
 
   static bool falsePredicate(Route<dynamic> route) => false;
 
-  static String get initialRoute => login;
+  static String get initialRoute => navigation;
 
   static Map<String, Widget Function(BuildContext)> get routes => {
         login: (context) => const LoginScreen(),
@@ -48,27 +51,36 @@ class Routes {
               child: const RegisterScreen(),
             ),
         groupSuccess: (context) => const GroupSuccessScreen(),
-        home: (context) => MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => LoginBloc(authService: getIt()),
-                ),
-                BlocProvider(
-                  create: (context) => UserBloc(userService: getIt())
-                    ..add(const GetUserMeEvent()),
-                ),
-                BlocProvider(
-                  create: (context) => GroupsBloc(groupService: getIt())
-                    ..add(const GetGroupsEvent()),
-                ),
-              ],
-              child: const HomeScreen(),
-            ),
         groupSettings: (context) => const GroupSettings(),
         newExpense: (context) => const NewExpenseScreen(),
-        group: (context) => const GroupScreen(),
         forgotPassword: (context) => const ForgotPasswordScreen(),
         groupStatistics: (context) => const GroupStatisticsScreen(),
         expenses: (context) => const ExpensesScreen(),
+        group: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => GroupDetailsBloc(groupService: getIt()),
+                ),
+                BlocProvider(
+                    create: (context) => InviteBloc(inviteService: getIt())),
+              ],
+              child: const GroupScreen(),
+            ),
+        navigation: (context) => MultiBlocProvider(providers: [
+              BlocProvider(
+                create: (context) => LoginBloc(authService: getIt()),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    UserBloc(userService: getIt())..add(const GetUserMeEvent()),
+              ),
+              BlocProvider(
+                create: (context) => GroupsBloc(groupService: getIt())
+                  ..add(const GetGroupsEvent()),
+              ),
+              BlocProvider(
+                create: (context) => GroupDetailsBloc(groupService: getIt()),
+              ),
+            ], child: const NavigationScreen())
       };
 }

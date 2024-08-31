@@ -6,7 +6,7 @@ class NewRoomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: () => Navigator.of(context).pushNamed('/group'),
+      onPressed: () => {},
       icon: const Icon(Icons.add),
       label: const Text('Novo Grupo'),
       style: ElevatedButton.styleFrom(

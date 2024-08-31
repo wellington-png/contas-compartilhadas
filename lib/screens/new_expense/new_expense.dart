@@ -180,13 +180,6 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
             // Lógica para salvar a despesa
             Navigator.of(context).pushNamed('/home');
           },
-          child: const Text(
-            _actionSaveText,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(
               horizontal: 100,
@@ -194,6 +187,13 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text(
+            _actionSaveText,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class DebtStatusRow extends StatelessWidget {
-  final String avatarPath;
+  final Widget icon;
   final String name;
   final String debtAmount;
   final String subName;
 
   const DebtStatusRow({
     super.key,
-    required this.avatarPath,
+    required this.icon,
     required this.name,
     required this.debtAmount,
     required this.subName,
@@ -20,8 +20,8 @@ class DebtStatusRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircleAvatar(
-          backgroundImage: AssetImage(avatarPath),
           radius: 24,
+          child: icon,
         ),
         const SizedBox(width: 12),
         Column(

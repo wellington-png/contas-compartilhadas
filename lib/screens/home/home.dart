@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import './widgets/avatar_header.dart';
 import './widgets/new_room_button.dart';
 import './widgets/room_list.dart';
-import './widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,18 +12,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Stack(
+    return const Scaffold(
+      body: Stack(
         children: [
           SafeArea(
             child: Padding(
@@ -38,16 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 20),
                   Expanded(
                     child: RoomList(),
-                  ),                  
+                  ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }

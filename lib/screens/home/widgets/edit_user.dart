@@ -45,7 +45,7 @@ class _EditUserState extends State<EditUser> {
     nameController = TextEditingController();
     fixedIncomeController = TextEditingController();
 
-    final UserState state  = context.read<UserBloc>().state;
+    final UserState state = context.read<UserBloc>().state;
 
     if (state.user != null) {
       nameController.text = state.user!.name;
@@ -55,9 +55,9 @@ class _EditUserState extends State<EditUser> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-      return SingleChildScrollView(
-        child: Container(
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        return Container(
           padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -104,88 +104,97 @@ class _EditUserState extends State<EditUser> {
                 ],
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Nome',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  hintText: 'Pluddie',
-                  border: UnderlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Renda Fixa',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: fixedIncomeController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: 'R\$ 0,00',
-                  border: UnderlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Avatar',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 200,
-                child: GridView.count(
-                  crossAxisCount: 4,
-                  shrinkWrap: true,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  padding: const EdgeInsets.only(top: 8),
-                  children: Avatar.values.map((avatar) {
-                    return GestureDetector(
-                      onTap: () {
-                        context.read<UserBloc>().add(UpdateAvatarUserEvent(avatar: avatar));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: state.avatar == avatar
-                                ? Colors.blueAccent
-                                : Colors.transparent,
-                            width: 4.0, // Largura da borda
-                          ),
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.blueGrey[100],
-                          backgroundImage: AssetImage(avatar.fullPath),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Nome',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
                         ),
                       ),
-                    );
-                  }).toList(),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: nameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Pluddie',
+                          border: UnderlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Renda Fixa',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: fixedIncomeController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          hintText: 'R\$ 0,00',
+                          border: UnderlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Avatar',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        height: 200,
+                        child: GridView.count(
+                          crossAxisCount: 4,
+                          shrinkWrap: true,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          padding: const EdgeInsets.only(top: 8),
+                          children: Avatar.values.map((avatar) {
+                            return GestureDetector(
+                              onTap: () {
+                                context.read<UserBloc>().add(UpdateAvatarUserEvent(avatar: avatar));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: state.avatar == avatar
+                                        ? Colors.blueAccent
+                                        : Colors.transparent,
+                                    width: 4.0,
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.blueGrey[100],
+                                  backgroundImage: AssetImage(avatar.fullPath),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

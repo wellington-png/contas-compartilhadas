@@ -9,19 +9,19 @@ class API {
 
   static const String token = 'token/';
 
-  static const Map<String, String> user = {
-    'create': 'users/',
-    'update': 'users/',
-    'delete': 'users/',
-    'me': 'users/me/',
-  };
+  // Endpoints de usuários
+  static const String userCreate = 'users/';
+  static String userUpdate(int id) => 'users/$id/';
+  static String userDelete(int id) => 'users/$id/';
+  static const String userMe = 'users/me/';
 
-  static const Map<String, String> group = {
-    'list': 'groups/',
-    'create': 'groups/',
-    'update': 'groups/',
-    'delete': 'groups/',
-  };
+  // Endpoints de grupos
+  static const String groupList = 'groups/';
+  static const String groupCreate = 'groups/';
+  static String groupUpdate(int id) => 'groups/$id/';
+  static String groupDelete(int id) => 'groups/$id/';
+  static String groupDetails(int id) => 'groups/$id/details/';
+  static String groupInviteEmail(id) => 'groups/$id/invite-email/';
 }
 
 typedef ProjetoGetter<T> = T Function();

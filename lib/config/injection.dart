@@ -1,3 +1,6 @@
+import 'package:conta/domain/repositories/invite/invite_repository.dart';
+import 'package:conta/domain/repositories/invite/invite_repository_impl.dart';
+import 'package:conta/domain/services/invite_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:conta/config/services/http_service.dart';
 import 'package:conta/config/services/http_service_impl.dart';
@@ -52,5 +55,13 @@ void setupInjection() {
 
   getIt.registerLazySingleton<GroupService>(
     () => GroupService(getIt()),
+  );
+
+  getIt.registerLazySingleton<InviteRepository>(
+    () => InviteRepositoryImpl(httpService: getIt()),
+  );
+
+  getIt.registerLazySingleton<InviteService>(
+    () => InviteService(getIt()),
   );
 }
