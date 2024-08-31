@@ -69,7 +69,6 @@ class InviteViaEmailCard extends StatelessWidget {
               duration: const Duration(seconds: 2),
             ),
           );
-          final int groupId = ModalRoute.of(context)!.settings.arguments as int;
         }
       },
       builder: (context, state) {

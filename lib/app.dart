@@ -1,3 +1,4 @@
+import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               LoginBloc(authService: getIt())..add(const GetLoginDataEvent()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              UserBloc(userService: getIt())..add(const GetUserMeEvent()),
         ),
       ],
       child: MaterialApp(

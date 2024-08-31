@@ -6,4 +6,7 @@ import 'package:conta/config/exceptions.dart';
 abstract class GroupRepository {
   Future<Either<ProjetoException, List<GroupEntity>>> list();
   Future<Either<ProjetoException, GroupDetailsEntity>> details(int id);
+  Future<Either<ProjetoException, GroupDetailsEntity>> create(String name);
+  Future<Either<ProjetoException, GroupDetailsEntity>> updateName(int id, String name);
+  Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id);
 }

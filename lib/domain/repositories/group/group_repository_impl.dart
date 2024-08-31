@@ -54,4 +54,64 @@ class GroupRepositoryImpl implements GroupRepository {
       );
     }
   }
+
+  @override
+  Future<Either<ProjetoException, GroupDetailsEntity>> create(
+      String name) async {
+    try {
+      Response response = await _httpService.post(
+        path: API.groupCreate,
+        isAuth: true,
+        data: {"name": name},
+      );
+      return response.statusCode == 201
+          ? Right(GroupDetailsDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao criar grupo"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, GroupDetailsEntity>> updateName(
+    int id,
+    String name,
+  ) async {
+
+    try {
+      Response response = await _httpService.put(
+        path: API.groupUpdate(id),
+        isAuth: true,
+        data: {"name": name},
+      );
+
+      return response.statusCode == 200
+          ? Right(GroupDetailsDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao atualizar grupo"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id) async {
+    try {
+      Response response = await _httpService.delete(
+        path: API.groupDelete(id),
+        isAuth: true,
+      );
+
+      return response.statusCode == 204
+          ? Right(GroupDetailsDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao deletar grupo"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
 }

@@ -12,4 +12,11 @@ class GroupService {
   Future<Either<ProjetoException, List<GroupEntity>>> list() async =>  await _groupRepository.list();
   
   Future<Either<ProjetoException, GroupDetailsEntity>> details(int id) async => await _groupRepository.details(id);
+
+  Future<Either<ProjetoException, GroupDetailsEntity>> create(String name) async => await _groupRepository.create(name);
+
+  Future<Either<ProjetoException, GroupDetailsEntity>> updateName(int id, String name) async => await _groupRepository.updateName(id, name);
+
+  Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id) async => await _groupRepository.delete(id);
+
 }

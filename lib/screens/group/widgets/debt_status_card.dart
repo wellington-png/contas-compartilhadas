@@ -47,32 +47,43 @@ class DebtStatusCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: expenses.length,
-                  separatorBuilder: (context, index) {
-                    return index == expenses.length - 1
-                        ? const SizedBox.shrink()
-                        : const Divider(
-                            color: Colors.grey,
-                            thickness: 1,
-                            height: 30,
-                          );
-                  },
-                  itemBuilder: (context, index) {
-                    final expense = expenses[index];
-                    final formattedDate = dateFormat.format(expense.dateSpent);
-                    return DebtStatusRow(
-                      icon: expense.isFixed
-                          ? const Icon(Icons.money)
-                          : const Icon(Icons.attach_money),
-                      name: expense.description,
-                      debtAmount: expense.amount.toString(),
-                      subName: formattedDate,
-                    );
-                  },
-                ),
+                if (expenses.isEmpty)
+                  const Center(
+                    child: Text(
+                      'Nenhuma despesa encontrada.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                else
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: expenses.length,
+                    separatorBuilder: (context, index) {
+                      return index == expenses.length - 1
+                          ? const SizedBox.shrink()
+                          : const Divider(
+                              color: Colors.grey,
+                              thickness: 1,
+                              height: 30,
+                            );
+                    },
+                    itemBuilder: (context, index) {
+                      final expense = expenses[index];
+                      final formattedDate = dateFormat.format(expense.dateSpent);
+                      return DebtStatusRow(
+                        icon: expense.isFixed
+                            ? const Icon(Icons.money)
+                            : const Icon(Icons.attach_money),
+                        name: expense.description,
+                        debtAmount: expense.amount.toString(),
+                        subName: formattedDate,
+                      );
+                    },
+                  ),
               ],
             ),
           ),

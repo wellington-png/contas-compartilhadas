@@ -13,6 +13,7 @@ class GroupDetailsBloc extends Bloc<GroupDetailsEvent, GroupDetailState> {
   GroupDetailsBloc({required this.groupService})
       : super(const GroupDetailState()) {
     on<GetGroupDetailsEvent>(_getGroupDetailsEventToState);
+    on<UpdateGroupNameEvent>(updateGroupName);
   }
 
   Future<void> _getGroupDetailsEventToState(
@@ -38,5 +39,28 @@ class GroupDetailsBloc extends Bloc<GroupDetailsEvent, GroupDetailState> {
         ),
       ),
     );
+  }
+
+  Future<void> updateGroupName(
+    UpdateGroupNameEvent event,
+    Emitter<GroupDetailState> emit,
+  ) async {
+    emit(state.copyWith(status: GroupDetailStatus.loading));
+    final result = await groupService.updateName(event.id, event.name);
+
+    result.fold(
+        (error) => emit(
+              state.copyWith(
+                status: GroupDetailStatus.failure,
+                errorMessage: error.message,
+              ),
+            ), (groupDetails) {
+      emit(
+        state.copyWith(
+          status: GroupDetailStatus.success,
+          group: groupDetails,
+        ),
+      );
+    });
   }
 }

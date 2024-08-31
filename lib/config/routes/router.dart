@@ -10,12 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:conta/config/injection.dart';
 
 import 'package:conta/screens/group_success.dart';
-import 'package:conta/screens/group_settings/group_settings.dart';
 import 'package:conta/screens/group/group.dart';
 import 'package:conta/screens/new_expense/new_expense.dart';
 import 'package:conta/screens/forgot_password/forgot_password.dart';
 
-import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 
 import 'package:conta/screens/login/login.dart';
@@ -51,7 +49,6 @@ class Routes {
               child: const RegisterScreen(),
             ),
         groupSuccess: (context) => const GroupSuccessScreen(),
-        groupSettings: (context) => const GroupSettings(),
         newExpense: (context) => const NewExpenseScreen(),
         forgotPassword: (context) => const ForgotPasswordScreen(),
         groupStatistics: (context) => const GroupStatisticsScreen(),
@@ -69,10 +66,6 @@ class Routes {
         navigation: (context) => MultiBlocProvider(providers: [
               BlocProvider(
                 create: (context) => LoginBloc(authService: getIt()),
-              ),
-              BlocProvider(
-                create: (context) =>
-                    UserBloc(userService: getIt())..add(const GetUserMeEvent()),
               ),
               BlocProvider(
                 create: (context) => GroupsBloc(groupService: getIt())

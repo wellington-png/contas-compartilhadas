@@ -21,6 +21,7 @@ extension GroupDetailsDto on GroupDetailsEntity {
       expenses: (json['expenses'] as List)
           .map<ExpenseEntity>((e) => ExpenseDto.fromJson(e))
           .toList(),
+      createdAt: DateTime.parse(json['created_at'] ?? "1970-01-01"),
     );
   }
 
@@ -35,6 +36,7 @@ extension GroupDetailsDto on GroupDetailsEntity {
       'averageExpensesPerPerson': averageExpensesPerPerson,
       'totalFixedIncome': totalFixedIncome,
       'expenses': expenses.map((expense) => expense.toJson()).toList(),
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 }

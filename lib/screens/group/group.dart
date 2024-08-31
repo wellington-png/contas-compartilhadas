@@ -1,10 +1,10 @@
-import 'package:conta/config/routes/router.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/group/widgets/debt_status_card.dart';
 import 'package:conta/screens/group/widgets/invite_via_email_card.dart';
 import 'package:conta/screens/group/widgets/overall_balance_card.dart';
 import 'package:conta/screens/group/widgets/room_members_card.dart';
 import 'package:conta/screens/group/widgets/title_and_dropdown.dart';
+import 'package:conta/screens/group_settings/group_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,8 +63,26 @@ class _GroupScreenState extends State<GroupScreen> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings, color: Colors.grey),
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(Routes.groupSettings),
+                onPressed: () {
+                  final bloc = BlocProvider.of<GroupDetailsBloc>(context);
+                  if (bloc.state.group != null) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider.value(
+                          value: bloc,
+                          child: const GroupSettings(),
+                        ),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Detalhes do grupo ainda não carregados.'),
+                      ),
+                    );
+                  }
+                },
               ),
             ],
           ),

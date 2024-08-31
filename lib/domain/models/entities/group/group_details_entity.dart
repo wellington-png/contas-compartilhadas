@@ -13,6 +13,7 @@ class GroupDetailsEntity extends Equatable {
   final double averageExpensesPerPerson;
   final double totalFixedIncome;
   final List<ExpenseEntity> expenses;
+  final DateTime createdAt;
 
   const GroupDetailsEntity({
     required this.id,
@@ -24,9 +25,10 @@ class GroupDetailsEntity extends Equatable {
     required this.averageExpensesPerPerson,
     required this.totalFixedIncome,
     required this.expenses,
+    required this.createdAt,
   });
 
-  const GroupDetailsEntity.empty()
+  GroupDetailsEntity.empty()
       : id = 0,
         name = "",
         owner = 0,
@@ -35,7 +37,8 @@ class GroupDetailsEntity extends Equatable {
         ownerName = "",
         totalExpenses = 0.0,
         averageExpensesPerPerson = 0.0,
-        totalFixedIncome = 0.0;
+        totalFixedIncome = 0.0,
+        createdAt = DateTime(1970, 1, 1);
 
   GroupDetailsEntity copyWith({
     int? id,
@@ -46,6 +49,7 @@ class GroupDetailsEntity extends Equatable {
     double? totalExpenses,
     double? averageExpensesPerPerson,
     double? totalFixedIncome,
+    DateTime? createdAt,
   }) {
     return GroupDetailsEntity(
       id: id ?? this.id,
@@ -58,6 +62,7 @@ class GroupDetailsEntity extends Equatable {
       averageExpensesPerPerson:
           averageExpensesPerPerson ?? this.averageExpensesPerPerson,
       totalFixedIncome: totalFixedIncome ?? this.totalFixedIncome,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -72,5 +77,6 @@ class GroupDetailsEntity extends Equatable {
         totalExpenses,
         averageExpensesPerPerson,
         totalFixedIncome,
+        createdAt,      
       ];
 }

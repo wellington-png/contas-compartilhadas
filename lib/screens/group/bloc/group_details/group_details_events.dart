@@ -13,3 +13,15 @@ class GetGroupDetailsEvent extends GroupDetailsEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class UpdateGroupNameEvent extends GroupDetailsEvent {
+  final int id;
+  final String name;
+  const UpdateGroupNameEvent({
+    required this.id,
+    required this.name,
+  });
+
+  @override
+  List<Object?> get props => [id, name];
+}
