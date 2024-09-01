@@ -1,7 +1,6 @@
-import 'package:conta/screens/expenses/expenses.dart';
+import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
-import 'package:conta/screens/group_statistics/group_statistics.dart';
 import 'package:conta/screens/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -51,8 +50,6 @@ class Routes {
         groupSuccess: (context) => const GroupSuccessScreen(),
         newExpense: (context) => const NewExpenseScreen(),
         forgotPassword: (context) => const ForgotPasswordScreen(),
-        groupStatistics: (context) => const GroupStatisticsScreen(),
-        expenses: (context) => const ExpensesScreen(),
         group: (context) => MultiBlocProvider(
               providers: [
                 BlocProvider(
@@ -60,6 +57,9 @@ class Routes {
                 ),
                 BlocProvider(
                     create: (context) => InviteBloc(inviteService: getIt())),
+                BlocProvider(
+                  create: (context) => ExpenseBloc(expenseService: getIt()),
+                ),
               ],
               child: const GroupScreen(),
             ),
@@ -73,6 +73,9 @@ class Routes {
               ),
               BlocProvider(
                 create: (context) => GroupDetailsBloc(groupService: getIt()),
+              ),
+              BlocProvider(
+                create: (context) => ExpenseBloc(expenseService: getIt()),
               ),
             ], child: const NavigationScreen())
       };

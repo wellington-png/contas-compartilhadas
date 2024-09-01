@@ -19,7 +19,6 @@ class AppColors {
 
 ThemeData theme = ThemeData(
   colorScheme: const ColorScheme.light().copyWith(
-    primary: AppColors.bgPeach,
   ),
   // elevatedButtonTheme: ElevatedButtonThemeData(
   //   style: ElevatedButton.styleFrom(

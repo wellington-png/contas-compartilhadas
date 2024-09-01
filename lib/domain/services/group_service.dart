@@ -19,4 +19,6 @@ class GroupService {
 
   Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id) async => await _groupRepository.delete(id);
 
+  Future<Either<ProjetoException, String>> removeMember(int id, int memberId) async => await _groupRepository.removeMember(id, memberId);
+
 }

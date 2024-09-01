@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class ExpenseEntity extends Equatable {
-  final int id;
+  final int? id;
   final double amount;
   final String description;
   final DateTime dateSpent;
@@ -9,7 +9,7 @@ class ExpenseEntity extends Equatable {
   final bool isFixed;
 
   const ExpenseEntity({
-    required this.id,
+    this.id,
     required this.amount,
     required this.description,
     required this.dateSpent,

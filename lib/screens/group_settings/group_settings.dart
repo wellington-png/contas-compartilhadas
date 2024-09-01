@@ -1,5 +1,4 @@
 import 'package:conta/config/theme.dart';
-import 'package:conta/domain/models/entities/user/user_entity.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:flutter/material.dart';
@@ -44,75 +43,6 @@ class _GroupSettingsState extends State<GroupSettings> {
     } else {
       _showErrorSnackBar();
     }
-  }
-
-  void _showDeleteMemberDialog(int memberId) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Remover Membro'),
-        content: const Text(
-            'Você tem certeza que deseja remover este membro do grupo?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Remover'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMembersList(List<UserEntity> members, int ownerId) {
-    return ExpansionTile(
-      shape: const RoundedRectangleBorder(
-        side: BorderSide(
-          color: Colors.transparent,
-        ),
-      ),
-      title: const Text(
-        'Membros',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      initiallyExpanded: true,
-      children: [
-        ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemCount: members.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final member = members[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 5),
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text(member.name[0]),
-                ),
-                title: Text(member.name),
-                trailing: ownerId == member.id
-                    ? IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          _showDeleteMemberDialog(member.id);
-                        },
-                      )
-                    : null,
-              ),
-            );
-          },
-        ),
-      ],
-    );
   }
 
   void _deleteGroup() {
@@ -240,7 +170,6 @@ class _GroupSettingsState extends State<GroupSettings> {
           _showErrorSnackBar();
         }
         if (state.status == GroupDetailStatus.success) {
-          // Adiciona evento para buscar detalhes do grupo novamente
           final groupId = state.group?.id; // Acesse o id do grupo
           if (groupId != null) {
             context
@@ -258,7 +187,6 @@ class _GroupSettingsState extends State<GroupSettings> {
           backgroundColor: Colors.white,
           appBar: _buildAppBar(),
           body: SingleChildScrollView(
-            // Adicione o SingleChildScrollView aqui
             child: Column(
               children: <Widget>[
                 SizedBox(
@@ -274,7 +202,89 @@ class _GroupSettingsState extends State<GroupSettings> {
                 _buildGroupNameField(ownerId, userId, state.group?.id ?? 0),
                 const SizedBox(height: 20),
                 const SizedBox(height: 10),
-                _buildMembersList(state.group?.members ?? [], ownerId),
+                ExpansionTile(
+                  shape: const RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                  title: const Text(
+                    'Membros',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  initiallyExpanded: true,
+                  children: [
+                    ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      itemCount: state.group?.members.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final member = state.group!.members[index];
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text(member.name[0]),
+                            ),
+                            title: Text(member.name),
+                            trailing: ownerId != member.id && ownerId == userId
+                                ? IconButton(
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return AlertDialog(
+                                            title: const Text('Remover Membro'),
+                                            content: const Text(
+                                                'Você tem certeza que deseja remover este membro do grupo?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(dialogContext)
+                                                      .pop(); // Fecha o diálogo
+                                                },
+                                                child: const Text('Cancelar'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  final group = state.group;
+                                                  if (group != null) {
+                                                    context
+                                                        .read<
+                                                            GroupDetailsBloc>()
+                                                        .add(
+                                                          RemoveMemberEvent(
+                                                            id: group.id,
+                                                            memberId: member.id,
+                                                          ),
+                                                        );
+                                                    Navigator.of(dialogContext)
+                                                        .pop(); // Fecha o diálogo
+                                                  } else {
+                                                    _showErrorSnackBar();
+                                                  }
+                                                },
+                                                child: const Text('Remover'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  )
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

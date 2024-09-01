@@ -19,6 +19,10 @@ import 'package:conta/domain/repositories/group/group_repository_impl.dart';
 import 'package:conta/domain/repositories/group/group_repository.dart';
 import 'package:conta/domain/services/group_service.dart';
 
+import 'package:conta/domain/repositories/expense/expense_repository.dart';
+import 'package:conta/domain/repositories/expense/expense_repository_impl.dart';
+import 'package:conta/domain/services/expense_service.dart';
+
 var getIt = GetIt.I;
 
 void setupInjection() {
@@ -64,4 +68,13 @@ void setupInjection() {
   getIt.registerLazySingleton<InviteService>(
     () => InviteService(getIt()),
   );
+
+  getIt.registerLazySingleton<ExpenseRepository>(
+    () => ExpenseRepositoryImpl(httpService: getIt()),
+  );
+
+  getIt.registerLazySingleton<ExpenseService>(
+    () => ExpenseService(getIt()),
+  );
+
 }

@@ -79,7 +79,6 @@ class GroupRepositoryImpl implements GroupRepository {
     int id,
     String name,
   ) async {
-
     try {
       Response response = await _httpService.put(
         path: API.groupUpdate(id),
@@ -108,6 +107,29 @@ class GroupRepositoryImpl implements GroupRepository {
       return response.statusCode == 204
           ? Right(GroupDetailsDto.fromJson(response.data))
           : Left(ProjetoException(message: "Erro ao deletar grupo"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, String>> removeMember(
+    int id,
+    int memberId,
+  ) async {
+    try {
+      final data = {"user_id": memberId};
+
+      Response response = await _httpService.put(
+        path: API.removeMember(id),
+        isAuth: true,
+        data: data,
+      );
+      return response.statusCode == 204
+          ? const Right("Membro removido com sucesso")
+          : Left(ProjetoException(message: "Erro ao remover membro"));
     } on DioException catch (e) {
       return Left(
         ProjetoException(message: e.response?.data['message'] ?? e.message),

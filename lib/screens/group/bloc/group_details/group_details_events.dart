@@ -25,3 +25,15 @@ class UpdateGroupNameEvent extends GroupDetailsEvent {
   @override
   List<Object?> get props => [id, name];
 }
+
+class RemoveMemberEvent extends GroupDetailsEvent {
+  final int id;
+  final int memberId;
+  const RemoveMemberEvent({
+    required this.id,
+    required this.memberId,
+  });
+
+  @override
+  List<Object?> get props => [id, memberId];
+}

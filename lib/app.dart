@@ -7,6 +7,9 @@ import 'package:conta/config/injection.dart';
 import 'package:conta/config/theme.dart';
 import 'package:conta/config/routes/router.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+
 import 'package:conta/screens/login/bloc/login_bloc.dart';
 
 class MyApp extends StatelessWidget {
@@ -30,6 +33,16 @@ class MyApp extends StatelessWidget {
         theme: theme,
         routes: Routes.routes,
         initialRoute: Routes.initialRoute,
+        supportedLocales: const <Locale>[
+          Locale('en', 'US'),
+          Locale('pt', 'BR'),
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        locale: const Locale('pt', 'BR'),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -9,4 +9,5 @@ abstract class GroupRepository {
   Future<Either<ProjetoException, GroupDetailsEntity>> create(String name);
   Future<Either<ProjetoException, GroupDetailsEntity>> updateName(int id, String name);
   Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id);
+  Future<Either<ProjetoException, String>> removeMember(int id, int memberId);
 }
