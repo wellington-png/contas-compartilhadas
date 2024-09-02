@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AppBarTitle extends StatelessWidget {
-  final DateTime selectedDate;
-  final void Function(int) changeMonth;
-  final Future<void> Function(BuildContext) selectMonth;
-
-  const AppBarTitle({
-    super.key,
-    required this.selectedDate,
-    required this.changeMonth,
-    required this.selectMonth,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
+AppBar buildAppBar(BuildContext context, DateTime selectedDate,
+    void Function(int) changeMonth, Future<void> Function(BuildContext) selectMonth) {
+  return AppBar(
+    title: GestureDetector(
       onTap: () => selectMonth(context), // Abre o calendário ao clicar na data
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,6 +20,7 @@ class AppBarTitle extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+    centerTitle: true,
+  );
 }

@@ -169,14 +169,14 @@ class _GroupSettingsState extends State<GroupSettings> {
         if (state.status == GroupDetailStatus.failure) {
           _showErrorSnackBar();
         }
-        if (state.status == GroupDetailStatus.success) {
-          final groupId = state.group?.id; // Acesse o id do grupo
-          if (groupId != null) {
-            context
-                .read<GroupDetailsBloc>()
-                .add(GetGroupDetailsEvent(id: groupId));
-          }
-        }
+        // if (state.status == GroupDetailStatus.success) {
+        //   final groupId = state.group?.id; // Acesse o id do grupo
+        //   if (groupId != null) {
+        //     context
+        //         .read<GroupDetailsBloc>()
+        //         .add(GetGroupDetailsEvent(id: groupId));
+        //   }
+        // }
       },
       builder: (context, state) {
         final stateUser = BlocProvider.of<UserBloc>(context).state;

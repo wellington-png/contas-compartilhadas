@@ -1,4 +1,6 @@
 import 'package:conta/domain/models/entities/expense/expense_entity.dart';
+import 'package:intl/intl.dart';
+
 
 extension ExpenseDto on ExpenseEntity {
   static ExpenseEntity fromJson(Map<String, dynamic> json) {
@@ -14,11 +16,14 @@ extension ExpenseDto on ExpenseEntity {
   }
 
   Map<String, dynamic> toJson() {
+    // date_spent = 2022-10-10T00:00:00.000 em string
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
     return {
       'id': id,
       'amount': amount.toString(),
       'description': description,
-      'date_spent': dateSpent.toIso8601String(),
+      'date_spent': formatter.format(dateSpent),
       'group': group,
       'is_fixed': isFixed,
     };

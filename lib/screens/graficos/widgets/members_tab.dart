@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MembersTab extends StatelessWidget {
-  const MembersTab({Key? key}) : super(key: key);
+  const MembersTab({super.key});
 
   @override
   Widget build(BuildContext context) {

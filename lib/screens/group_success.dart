@@ -11,8 +11,14 @@ class GroupSuccessScreen extends StatefulWidget {
 
 class _GroupSuccessScreenState extends State<GroupSuccessScreen> {
   @override
-  void dispose() {
-    super.dispose();
+  void initState() {
+    super.initState();
+    // Passar 4 segundos e ir para a tela home
+    Future.delayed(const Duration(seconds: 4), () {
+      if (mounted) {  // Verifica se o widget ainda está montado
+        Navigator.pushReplacementNamed(context, Routes.navigation);
+      }
+    });
   }
 
   @override
@@ -63,24 +69,23 @@ class _GroupSuccessScreenState extends State<GroupSuccessScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.home);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    'ir para o grupo',
-                    style:
-                        TextStyle(fontSize: 16, color: AppColors.textBigTitle),
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.pushNamed(context, Routes.home);
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: AppColors.primaryBlue,
+                //     padding: const EdgeInsets.symmetric(
+                //         horizontal: 50, vertical: 15),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //   ),
+                //   child: const Text(
+                //     'Ir para o grupo',
+                //     style: TextStyle(fontSize: 16, color: AppColors.textBigTitle),
+                //   ),
+                // ),
               ],
             ),
           ),

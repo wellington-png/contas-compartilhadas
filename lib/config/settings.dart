@@ -23,6 +23,8 @@ class API {
   static String groupDetails(int id) => 'groups/$id/details/';
   static String groupInviteEmail(id) => 'groups/$id/invite-email/';
   static String removeMember(int id) => 'groups/$id/remove-member/';
+  // groups/8/add-expense
+  static String addExpense(int id) => 'groups/$id/add-expense/';
 
   // Endpoints de despesas
   static String expenseList({

@@ -6,6 +6,7 @@ import 'package:conta/config/services/http_service.dart';
 import 'package:conta/config/settings.dart';
 import 'package:conta/domain/models/entities/expense/expense_entity.dart';
 import 'package:conta/domain/repositories/expense/expense_repository.dart';
+import 'package:intl/intl.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository {
   final HttpService _httpService;
@@ -54,9 +55,20 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
     ExpenseEntity expense,
   ) async {
     try {
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+
+      var data = {
+        "description": expense.description,
+        "amount": expense.amount,
+        "date_spent": formatter.format(expense.dateSpent),
+        "is_fixed": expense.isFixed,
+        "group": expense.group,
+      };
+
       final response = await _httpService.post(
-        path: API.expenseCreate,
-        data: expense.toJson(),
+        path: API.addExpense(expense.group),
+        data: data,
         isAuth: true,
       );
 

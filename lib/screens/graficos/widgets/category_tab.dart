@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CategoryTab extends StatelessWidget {
-  const CategoryTab({Key? key}) : super(key: key);
+  const CategoryTab({super.key});
 
   @override
   Widget build(BuildContext context) {

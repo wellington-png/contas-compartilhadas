@@ -56,7 +56,7 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<Either<ProjetoException, GroupDetailsEntity>> create(
+  Future<Either<ProjetoException, GroupEntity>> create(
       String name) async {
     try {
       Response response = await _httpService.post(
@@ -65,7 +65,7 @@ class GroupRepositoryImpl implements GroupRepository {
         data: {"name": name},
       );
       return response.statusCode == 201
-          ? Right(GroupDetailsDto.fromJson(response.data))
+          ? Right(GroupDto.fromJson(response.data))
           : Left(ProjetoException(message: "Erro ao criar grupo"));
     } on DioException catch (e) {
       return Left(

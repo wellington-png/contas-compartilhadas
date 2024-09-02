@@ -1,3 +1,4 @@
+import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/group/widgets/debt_status_card.dart';
 import 'package:conta/screens/group/widgets/invite_via_email_card.dart';
@@ -19,11 +20,13 @@ class _GroupScreenState extends State<GroupScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final bloc = BlocProvider.of<GroupDetailsBloc>(context);
-    if (bloc.state.group == null) {
+    final groupBloc = BlocProvider.of<GroupDetailsBloc>(context);
+    final expenseBloc = BlocProvider.of<ExpenseBloc>(context);
+    if (groupBloc.state.group == null) {
       final int groupId = ModalRoute.of(context)!.settings.arguments as int;
-      bloc.add(GetGroupDetailsEvent(id: groupId));
+      groupBloc.add(GetGroupDetailsEvent(id: groupId));
     }
+    expenseBloc.add(ExpenseListRequested(groupId: ModalRoute.of(context)!.settings.arguments as int, month: DateTime.now().month, year: DateTime.now().year));
   }
 
   @override
@@ -86,21 +89,21 @@ class _GroupScreenState extends State<GroupScreen> {
               ),
             ],
           ),
-          body: const SingleChildScrollView(
+          body:  SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitleAndDropdown(),
-                  SizedBox(height: 16),
-                  RoomMembersCard(),
-                  SizedBox(height: 16),
-                  OverallBalanceCard(),
-                  SizedBox(height: 16),
-                  InviteViaEmailCard(),
-                  SizedBox(height: 16),
-                  DebtStatusCard(),
+                  const TitleAndDropdown(),
+                  const SizedBox(height: 16),
+                  const RoomMembersCard(),
+                  const SizedBox(height: 16),
+                  const OverallBalanceCard(),
+                  const SizedBox(height: 16),
+                  const InviteViaEmailCard(),
+                  const SizedBox(height: 16),
+                  DebtStatusCard(groupId: state.group!.id),
                 ],
               ),
             ),

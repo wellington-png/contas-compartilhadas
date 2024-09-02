@@ -1,7 +1,8 @@
+import 'package:conta/screens/group/widgets/debt_status_row.dart';
 import 'package:flutter/material.dart';
 
 class BalanceTab extends StatelessWidget {
-  const BalanceTab({Key? key}) : super(key: key);
+  const BalanceTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,39 +10,17 @@ class BalanceTab extends StatelessWidget {
       children: [
         const SizedBox(height: 8),
         const Text(
-          'Balance \$170',
+          'Todas as despesas do mês',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 16),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //   children: [
-        //     Text(
-        //       'Expense: \$1,654 (48%)',
-        //       style: TextStyle(fontSize: 18, color: Colors.blue),
-        //     ),
-        //     Text(
-        //       'Income: \$1,824 (52%)',
-        //       style: TextStyle(fontSize: 18, color: Colors.yellow),
-        //     ),
-        //   ],
-        // ),
         Expanded(
           child: ListView(
             children: const [
-              ListTile(
-                trailing: Text('\$1,654 (48%)',
-                    style: TextStyle(fontSize: 18, color: Colors.blue)),
-                title: Text('Expense'),
-              ),
-              ListTile(
-                trailing: Text('\$1,824 (52%)',
-                    style: TextStyle(fontSize: 18, color: Colors.yellow)),
-                title: Text('Income'),
-              ),
+              DebtStatusRow(icon: Icon(Icons.money), name: 'teste', debtAmount: "100", subName: 'teste')
             ],
           ),
         ),

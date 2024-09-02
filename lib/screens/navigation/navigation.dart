@@ -1,6 +1,7 @@
 /* Flutter Imports */
 import 'package:conta/screens/expenses/expenses.dart';
 import 'package:conta/screens/home/home.dart';
+import 'package:conta/screens/new_expense/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -19,14 +20,17 @@ class _BaseState extends State<NavigationScreen> {
 
     const List<Widget> pages = [
       HomeScreen(),
+      NewExpenseScreen(),
       ExpensesScreen(),
     ];
     final List<IconData> icons = [
       Icons.person,
-      Icons.add_circle_outline,
+      Icons.add,
+      Icons.money,
     ];
     const List<String> labels = [
       'Perfil',
+      'ADD',
       'Despesas',
     ];
 

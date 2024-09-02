@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './widgets/avatar_header.dart';
-import './widgets/new_room_button.dart';
+import 'widgets/new_group_button.dart';
 import './widgets/room_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   AvatarHeader(),
                   SizedBox(height: 20),
-                  NewRoomButton(),
+                  NewGroupButton(),
                   SizedBox(height: 20),
                   Expanded(
                     child: RoomList(),

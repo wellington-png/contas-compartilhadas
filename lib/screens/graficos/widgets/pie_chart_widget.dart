@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PieChartWidget extends StatelessWidget {
   final int currentIndex;
 
-  const PieChartWidget({Key? key, required this.currentIndex}) : super(key: key);
+  const PieChartWidget({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {

@@ -10,3 +10,13 @@ class GetGroupsEvent extends GroupsEvent {
   @override
   List<Object?> get props => [];
 }
+
+
+class CreateGroupEvent extends GroupsEvent {
+  final String groupName;
+
+  const CreateGroupEvent(this.groupName);
+
+  @override
+  List<Object?> get props => [groupName];
+}

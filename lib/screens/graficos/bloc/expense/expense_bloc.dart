@@ -11,7 +11,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   ExpenseBloc({required this.expenseService}) : super(const ExpenseState()) {
     on<ExpenseListRequested>(_onExpenseListRequested);
-    on<CreateExpenseRequested>(_onCreateExpenseRequested);
   }
 
   void _onExpenseListRequested(
@@ -31,23 +30,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
           status: ExpenseStatus.failure, errorMessage: error.message)),
       (expenses) => emit(
           state.copyWith(status: ExpenseStatus.success, expenses: expenses)),
-    );
-  }
-
-  void _onCreateExpenseRequested(
-      CreateExpenseRequested event, Emitter<ExpenseState> emit) async {
-    emit(state.copyWith(status: ExpenseStatus.loading));
-    ExpenseEntity expense = event.expense;
-    final result = await expenseService.create(expense);
-
-    result.fold(
-      (error) => emit(state.copyWith(
-          status: ExpenseStatus.failure, errorMessage: error.message)),
-      (expense) => emit(
-        state.copyWith(
-          status: ExpenseStatus.success,
-        ),
-      ),
     );
   }
 }

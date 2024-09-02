@@ -25,13 +25,3 @@ class ExpenseListRequested extends ExpenseEvent {
   @override
   List<Object?> get props => [groupId, dateSpentRangeAfter, dateSpentRangeBefore, isFixed, month, year];
 }
-
-
-class CreateExpenseRequested extends ExpenseEvent {
-  final ExpenseEntity expense;
-
-  const CreateExpenseRequested(this.expense);
-
-  @override
-  List<Object?> get props => [expense];
-}

@@ -12,6 +12,7 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
 
   GroupsBloc({required this.groupService}) : super(const GroupsState()) {
     on<GetGroupsEvent>(_onGetGroupsEvent);
+    on<CreateGroupEvent>(_onCreateGroupEvent);
   }
 
   Future<void> _onGetGroupsEvent(
@@ -29,6 +30,28 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
       ),
       (groups) => emit(
         state.copyWith(status: GroupsStatus.success, groups: groups),
+      ),
+    );
+  }
+
+  Future<void> _onCreateGroupEvent(
+    CreateGroupEvent event,
+    Emitter<GroupsState> emit,
+  ) async {
+    emit(state.copyWith(status: GroupsStatus.loading));
+    final result = await groupService.create(event.groupName);
+    result.fold(
+      (error) => emit(
+        state.copyWith(
+          status: GroupsStatus.failure,
+          errorMessage: error.message,
+        ),
+      ),
+      (group) => emit(
+        state.copyWith(
+          status: GroupsStatus.success,
+          groups: [...state.groups ?? [], group],
+        ),
       ),
     );
   }

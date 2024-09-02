@@ -13,7 +13,7 @@ class GroupService {
   
   Future<Either<ProjetoException, GroupDetailsEntity>> details(int id) async => await _groupRepository.details(id);
 
-  Future<Either<ProjetoException, GroupDetailsEntity>> create(String name) async => await _groupRepository.create(name);
+  Future<Either<ProjetoException, GroupEntity>> create(String name) async => await _groupRepository.create(name);
 
   Future<Either<ProjetoException, GroupDetailsEntity>> updateName(int id, String name) async => await _groupRepository.updateName(id, name);
 

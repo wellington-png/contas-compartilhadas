@@ -1,19 +1,21 @@
-import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
+import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
+import 'package:conta/screens/expenses/expenses.dart';
+// import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:conta/screens/group/widgets/debt_status_row.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class DebtStatusCard extends StatelessWidget {
-  const DebtStatusCard({super.key});
+  final int? groupId;
+  const DebtStatusCard({super.key, this.groupId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupDetailsBloc, GroupDetailState>(
+    return BlocBuilder<ExpenseBloc, ExpenseState>(
       builder: (context, state) {
-        final expenses = state.group!.expenses;
+        final expenses = state.expenses;
         final dateFormat = DateFormat('dd/MM/yyyy');
-
         return Card(
           elevation: 3,
           shape: RoundedRectangleBorder(
@@ -35,7 +37,14 @@ class DebtStatusCard extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                  
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ExpensesScreen(
+                            groupId: groupId,
+                          ),
+                        ));
+                      },
                       child: const Text(
                         'Ver todas',
                         style: TextStyle(
@@ -47,7 +56,7 @@ class DebtStatusCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                if (expenses.isEmpty)
+                if (expenses == null)
                   const Center(
                     child: Text(
                       'Nenhuma despesa encontrada.',
@@ -73,7 +82,8 @@ class DebtStatusCard extends StatelessWidget {
                     },
                     itemBuilder: (context, index) {
                       final expense = expenses[index];
-                      final formattedDate = dateFormat.format(expense.dateSpent);
+                      final formattedDate =
+                          dateFormat.format(expense.dateSpent);
                       return DebtStatusRow(
                         icon: expense.isFixed
                             ? const Icon(Icons.money)
