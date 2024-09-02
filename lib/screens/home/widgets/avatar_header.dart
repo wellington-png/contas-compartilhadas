@@ -1,5 +1,6 @@
 import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:conta/screens/home/widgets/edit_user.dart';
+import 'package:conta/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,7 +58,6 @@ class _AvatarHeaderState extends State<AvatarHeader> {
                   ],
                 ),
               ),
-              const Spacer(),
               IconButton(
                 onPressed: () {
                   showModalBottomSheet(
@@ -74,6 +74,15 @@ class _AvatarHeaderState extends State<AvatarHeader> {
                 },
                 icon: const Icon(Icons.settings),
                 color: Colors.grey,
+              ),
+              IconButton(
+                onPressed: () {
+                  // Lógica para deslogar o usuário
+                  context.read<LoginBloc>().add(const PerformLogoutEvent());
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                icon: const Icon(Icons.exit_to_app),
+                color: Colors.red,
               ),
             ],
           );

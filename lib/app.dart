@@ -1,3 +1,5 @@
+import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
+import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 import 'package:conta/screens/home/bloc/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +10,6 @@ import 'package:conta/config/theme.dart';
 import 'package:conta/config/routes/router.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 
 import 'package:conta/screens/login/bloc/login_bloc.dart';
 
@@ -26,6 +27,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               UserBloc(userService: getIt())..add(const GetUserMeEvent()),
+        ),
+        BlocProvider(
+          create: (context) => ExpenseBloc(expenseService: getIt()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              GroupsBloc(groupService: getIt())..add(const GetGroupsEvent()),
         ),
       ],
       child: MaterialApp(

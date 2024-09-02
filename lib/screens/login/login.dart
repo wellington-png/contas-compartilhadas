@@ -22,10 +22,10 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
 
-    _emailController.text = "wellington@email.com"; // TODO: remove this line
-    _passwordController.text = "123456"; // TODO: remove this line
+    // _emailController.text = "wellington@email.com"; // TODO: remove this line
+    // _passwordController.text = "123456"; // TODO: remove this line
 
-    _login();// TODO: remove this line
+    // _login();// TODO: remove this line
   }
 
   void _login() {
@@ -57,42 +57,48 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SizedBox.expand(
-            child: Image.asset(
-              'assets/images/bgimg1.png',
-              fit: BoxFit.cover,
-            ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Stack(
+      children: <Widget>[
+        SizedBox.expand(
+          child: Image.asset(
+            'assets/images/bgimg1.png',
+            fit: BoxFit.cover,
           ),
-          BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) {
-              if (state.status == LoginStatus.success) {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Routes.home,
-                  (route) => false,
-                );
-              } else if (state.status == LoginStatus.failure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Erro ao fazer login"),
-                  ),
-                );
-              }
-            },
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+        ),
+        BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            if (state.status == LoginStatus.success) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.navigation,
+                (route) => false,
+              );
+            } else if (state.status == LoginStatus.failure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Erro ao fazer login"),
+                ),
+              );
+            }
+          },
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
                 child: Card(
                   color: AppColors.white,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      top: 16.0,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+                    ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
@@ -130,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           obscureText: true,
                           textInputAction: TextInputAction.send,
-                          
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
@@ -182,8 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

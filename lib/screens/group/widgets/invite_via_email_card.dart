@@ -73,9 +73,9 @@ class InviteViaEmailCard extends StatelessWidget {
           emailController.clear();
         } else if (state.status == InviteStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Erro: ${state.errorMessage}'),
-              duration: const Duration(seconds: 2),
+            const SnackBar(
+              content: Text('Não foi possível enviar o convite. talvez o usuário não exista.'),
+              duration:  Duration(seconds: 2),
             ),
           );
         }

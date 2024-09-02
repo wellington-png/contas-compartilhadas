@@ -1,4 +1,3 @@
-// Imports de pacotes
 import 'package:flutter/material.dart';
 
 // Imports de configuração e serviços
@@ -11,7 +10,6 @@ import 'package:conta/domain/repositories/expense/expense_repository_impl.dart';
 
 // Imports de widgets
 import 'package:conta/screens/expenses/widgets/app_bar.dart';
-import 'package:conta/screens/expenses/widgets/tab_buttons.dart';
 
 class ExpensesScreen extends StatefulWidget {
   final int? groupId;
@@ -26,6 +24,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   DateTime _selectedDate = DateTime.now();
   int _currentIndex = 0;
   List<ExpenseEntity> _expenses = [];
+  final List<String> _options = [
+    'Todas',
+    'Variável',
+    'Fixa'
+  ]; // Opções para o Dropdown
 
   @override
   void initState() {
@@ -89,11 +92,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     });
   }
 
-  void _onTabChanged(int index) {
+  void _onOptionChanged(String? option) {
     setState(() {
-      _currentIndex = index;
+      _currentIndex = _options.indexOf(option ?? 'Todas');
     });
-    _loadExpenses(); // Recarrega as despesas ao mudar a aba
+    _loadExpenses(); // Recarrega as despesas ao mudar a opção
   }
 
   @override
@@ -114,38 +117,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               thickness: 1,
               color: Color.fromARGB(91, 158, 158, 158),
             ),
-            // Seção de abas
-            Card(
-              margin: const EdgeInsets.all(0),
-              color: AppColors.bgPeach,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        TabButtons(
-                          currentIndex: _currentIndex,
-                          onTabChanged: _onTabChanged,
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Seção de opções
+
             // Lista de despesas
             Expanded(
               child: Card(
-                margin: const EdgeInsets.all(18),
+                margin: const EdgeInsets.all(8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                 ),
@@ -157,8 +134,21 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       const Text(
                         'Todas as despesas do mês',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DropdownButton<String>(
+                          value: _options[_currentIndex],
+                          onChanged: _onOptionChanged,
+                          items: _options.map((String option) {
+                            return DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            );
+                          }).toList(),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -166,28 +156,78 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                         child: ListView.separated(
                           itemCount: _expenses.length,
                           separatorBuilder: (context, index) {
-                            // Retorna um Divider para todos os itens, exceto o último
+                            // Retorna um Divider com espaçamento entre os itens
                             return index < _expenses.length - 1
-                                ? const Divider(height: 1, color: Colors.grey)
+                                ? Column(
+                                    children: [
+                                      const Divider(
+                                          height: 1, color: Colors.grey),
+                                      const SizedBox(
+                                          height: 8), // Espaço entre os itens
+                                    ],
+                                  )
                                 : const SizedBox
                                     .shrink(); // Não exibe um Divider para o último item
                           },
                           itemBuilder: (context, index) {
                             final expense = _expenses[index];
-                            return ListTile(
-                              leading: Icon(
-                                expense.isFixed
-                                    ? Icons.lock
-                                    : Icons
-                                        .lock_open, // Exibe ícone diferente com base em isFixed
-                              ),
-                              title: Text(expense.description),
-                              subtitle: Text(
-                                  '${expense.dateSpent.day}/${expense.dateSpent.month}/${expense.dateSpent.year}'),
-                              trailing: Text(expense.amount.toString()),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
-                                  horizontal: 16.0), // Espaçamento interno
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 24,
+                                  child: Icon(
+                                    expense.isFixed
+                                        ? Icons.lock
+                                        : Icons
+                                            .lock_open, // Exibe ícone diferente com base em isFixed
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        expense.description,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${expense.dateSpent.day}/${expense.dateSpent.month}/${expense.dateSpent.year}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      if (expense.nameUser != null)
+                                        Text(
+                                          expense.nameUser!,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      expense.amount.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(expense.isFixed ? 'Fixo' : 'Variável'),
+                                  ],
+                                ),
+                              ],
                             );
                           },
                         ),
@@ -196,7 +236,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

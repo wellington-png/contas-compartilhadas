@@ -20,7 +20,13 @@ class BalanceTab extends StatelessWidget {
         Expanded(
           child: ListView(
             children: const [
-              DebtStatusRow(icon: Icon(Icons.money), name: 'teste', debtAmount: "100", subName: 'teste')
+              // DebtStatusRow(
+              //     icon: Icon(Icons.money),
+              //     name: 'teste',
+              //     debtAmount: "100",
+              //     subName: 'teste',
+              //     nameUser: 'teste',
+              //     isFixad: false),
             ],
           ),
         ),

@@ -12,6 +12,7 @@ extension ExpenseDto on ExpenseEntity {
           DateTime.tryParse(json['date_spent'] ?? "") ?? DateTime(1970, 1, 1),
       group: json['group'] ?? 0,
       isFixed: json['is_fixed'] ?? false,
+      nameUser: json['name_user'] ?? "",
     );
   }
 

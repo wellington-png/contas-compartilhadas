@@ -4,7 +4,6 @@ abstract class ExpenseEvent extends Equatable {
   const ExpenseEvent();
 }
 
-
 class ExpenseListRequested extends ExpenseEvent {
   final int? groupId;
   final String? dateSpentRangeAfter;
@@ -23,9 +22,15 @@ class ExpenseListRequested extends ExpenseEvent {
   });
 
   @override
-  List<Object?> get props => [groupId, dateSpentRangeAfter, dateSpentRangeBefore, isFixed, month, year];
+  List<Object?> get props => [
+        groupId,
+        dateSpentRangeAfter,
+        dateSpentRangeBefore,
+        isFixed,
+        month,
+        year
+      ];
 }
-
 
 class CreateExpenseRequested extends ExpenseEvent {
   final ExpenseEntity expense;
@@ -34,4 +39,13 @@ class CreateExpenseRequested extends ExpenseEvent {
 
   @override
   List<Object?> get props => [expense];
+}
+
+class DeleteExpenseRequested extends ExpenseEvent {
+  final int id;
+
+  const DeleteExpenseRequested(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }

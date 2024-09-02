@@ -290,11 +290,11 @@ class _GroupSettingsState extends State<GroupSettings> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _deleteGroup,
-            backgroundColor: Colors.red,
-            child: const Icon(Icons.delete),
-          ),
+          //floatingActionButton: FloatingActionButton(
+            //onPressed: _deleteGroup,
+            //backgroundColor: Colors.red,
+            //child: const Icon(Icons.delete),
+          //),
         );
       },
     );

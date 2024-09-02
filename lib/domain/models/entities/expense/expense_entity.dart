@@ -7,6 +7,7 @@ class ExpenseEntity extends Equatable {
   final DateTime dateSpent;
   final int group;
   final bool isFixed;
+  final String? nameUser;
 
   const ExpenseEntity({
     this.id,
@@ -15,6 +16,7 @@ class ExpenseEntity extends Equatable {
     required this.dateSpent,
     required this.group,
     required this.isFixed,
+    this.nameUser,
   });
 
   ExpenseEntity.empty()
@@ -23,7 +25,8 @@ class ExpenseEntity extends Equatable {
         description = "",
         dateSpent = DateTime(1970, 1, 1),
         group = 0,
-        isFixed = false;
+        isFixed = false,
+        nameUser = "";
 
   ExpenseEntity copyWith({
     int? id,
@@ -32,6 +35,7 @@ class ExpenseEntity extends Equatable {
     DateTime? dateSpent,
     int? group,
     bool? isFixed,
+    nameUser,
   }) {
     return ExpenseEntity(
       id: id ?? this.id,
@@ -40,6 +44,7 @@ class ExpenseEntity extends Equatable {
       dateSpent: dateSpent ?? this.dateSpent,
       group: group ?? this.group,
       isFixed: isFixed ?? this.isFixed,
+      nameUser: nameUser ?? this.nameUser,
     );
   }
 

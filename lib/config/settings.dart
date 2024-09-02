@@ -30,6 +30,7 @@ class API {
   static String expenseComparison(int id, int month, int year) => 'groups/$id/expense-comparison/?month=$month&year=$year';
 
   static String addExpense(int id) => 'groups/$id/add-expense/';
+  static String balance = 'expenses/balance/';
 
   // Endpoints de despesas
   static String expenseList({

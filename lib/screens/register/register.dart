@@ -1,4 +1,5 @@
 // import 'package:conta/screens/login/bloc/login_bloc.dart';
+import 'package:conta/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:conta/config/theme.dart';
 import 'package:conta/config/routes/router.dart';
@@ -46,17 +47,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  // context.read<LoginBloc>().add( PerformLoginEvent(
+  //       email: state.user!.email,
+  //       password: state.user!.password
+  // ));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.status == RegisterStatus.success) {
+            Navigator.pushNamed(context, Routes.login);
             // context.read<LoginBloc>().add( PerformLoginEvent(
             //       email: state.user!.email,
             //       password: state.user!.password
             // ));
-            Navigator.pushNamed(context, Routes.login);
           }
           if (state.status == RegisterStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -77,97 +83,104 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                color: AppColors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const Text(
-                        'Criar Conta',
-                        style: TextStyle(
-                          color: AppColors.textBigTitle,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'Preencha os dados abaixo',
-                        style: TextStyle(
-                          color: AppColors.textBigTitle,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Nome',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Senha',
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: BlocBuilder<RegisterBloc, RegisterState>(
-                            builder: (context, state) {
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryYellow,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            onPressed: state.status != RegisterStatus.loading
-                                ? _register
-                                : null,
-                            child: state.status == RegisterStatus.loading
-                                ? const CircularProgressIndicator()
-                                : const Text(
-                                    'Registrar',
-                                    style: TextStyle(
-                                      color: AppColors.textBigTitle,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                          );
-                        }),
-                      ),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, Routes.login),
-                        child: const Text(
-                          'Já tem uma conta? Entre agora!',
+              child: SingleChildScrollView(
+                child: Card(
+                  color: AppColors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      top: 16.0,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Text(
+                          'Criar Conta',
                           style: TextStyle(
-                            color: Color(0xFF8F8F8F),
+                            color: AppColors.textBigTitle,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Preencha os dados abaixo',
+                          style: TextStyle(
+                            color: AppColors.textBigTitle,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Nome',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Senha',
+                            border: OutlineInputBorder(),
+                          ),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          child: BlocBuilder<RegisterBloc, RegisterState>(
+                              builder: (context, state) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryYellow,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              onPressed: state.status != RegisterStatus.loading
+                                  ? _register
+                                  : null,
+                              child: state.status == RegisterStatus.loading
+                                  ? const CircularProgressIndicator()
+                                  : const Text(
+                                      'Registrar',
+                                      style: TextStyle(
+                                        color: AppColors.textBigTitle,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, Routes.login),
+                          child: const Text(
+                            'Já tem uma conta? Entre agora!',
+                            style: TextStyle(
+                              color: Color(0xFF8F8F8F),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:conta/domain/models/entities/expense/balance_entity.dart';
 import 'package:conta/domain/models/entities/expense/expense_comparison_entity.dart';
 import 'package:conta/domain/models/entities/expense/expense_entity.dart';
 import 'package:conta/domain/repositories/expense/expense_repository.dart';
@@ -41,5 +42,9 @@ class ExpenseService {
 
   Future<Either<ProjetoException, List<ExpenseComparisonEntity>>> expenseComparison(int id, int month, int year) async {
     return _expenseRepository.expenseComparison(id, month, year);
+  }
+
+  Future<Either<ProjetoException, BalanceEntity>> balance() async {
+    return _expenseRepository.balance();
   }
 }

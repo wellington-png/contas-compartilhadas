@@ -1,5 +1,7 @@
+import 'package:conta/domain/models/dto/expense/balance_dto.dart';
 import 'package:conta/domain/models/dto/expense/expense_comparison_dto.dart';
 import 'package:conta/domain/models/dto/expense/expense_dto.dart';
+import 'package:conta/domain/models/entities/expense/balance_entity.dart';
 import 'package:conta/domain/models/entities/expense/expense_comparison_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -146,6 +148,24 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
                   .toList(),
             )
           : Left(ProjetoException(message: "Erro ao comparar despesas"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, BalanceEntity>> balance() async {
+    try {
+      final response = await _httpService.get(
+        path: API.balance,
+        isAuth: true,
+      );
+
+      return response.statusCode == 200
+          ? Right(BalanceDto.fromJson(response.data))
+          : Left(ProjetoException(message: "Erro ao buscar balanço"));
     } on DioException catch (e) {
       return Left(
         ProjetoException(message: e.response?.data['message'] ?? e.message),

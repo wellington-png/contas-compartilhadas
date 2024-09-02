@@ -2,6 +2,7 @@ import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
 import 'package:conta/screens/navigation/navigation.dart';
+import 'package:conta/screens/view_datas/bloc/balence/balence_bloc.dart';
 import 'package:conta/screens/view_datas/bloc/expense_com/expense_com_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,7 @@ class Routes {
 
   static bool falsePredicate(Route<dynamic> route) => false;
 
-  static String get initialRoute => navigation;
+  static String get initialRoute => login;
 
   static Map<String, Widget Function(BuildContext)> get routes => {
         login: (context) => const LoginScreen(),
@@ -70,21 +71,19 @@ class Routes {
               BlocProvider(
                 create: (context) => LoginBloc(authService: getIt()),
               ),
-              BlocProvider(
-                create: (context) => GroupsBloc(groupService: getIt())
-                  ..add(const GetGroupsEvent()),
-              ),
+
               BlocProvider(
                 create: (context) => GroupDetailsBloc(groupService: getIt()),
-              ),
-              BlocProvider(
-                create: (context) => ExpenseBloc(expenseService: getIt()),
               ),
               BlocProvider(
                 create: (context) => MemberBloc(groupService: getIt()),
               ),
               BlocProvider(
                 create: (context) => ExpenseComBloc(expenseService: getIt()),
+              ),
+              BlocProvider(
+                create: (context) => BalanceBloc(expenseService: getIt())
+                  ..add(const BalanceRequested()),
               ),
             ], child: const NavigationScreen())
       };

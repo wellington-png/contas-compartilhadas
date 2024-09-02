@@ -24,7 +24,11 @@ class AppBarTitle extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () => changeMonth(-1),
           ),
-          Text(DateFormat.yMMMM('pt_BR').format(selectedDate)),
+          Text(DateFormat.yMMMM('pt_BR').format(selectedDate), // Formata a data
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )),
           IconButton(
             icon: const Icon(Icons.arrow_forward_ios),
             onPressed: () => changeMonth(1),

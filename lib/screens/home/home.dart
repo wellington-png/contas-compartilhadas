@@ -1,3 +1,4 @@
+import 'package:conta/config/theme.dart';
 import 'package:flutter/material.dart';
 
 import './widgets/avatar_header.dart';
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: AppColors.bgPeach,
       body: Stack(
         children: [
           SafeArea(

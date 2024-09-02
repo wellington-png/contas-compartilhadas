@@ -6,6 +6,7 @@ import 'package:conta/screens/group/widgets/overall_balance_card.dart';
 import 'package:conta/screens/group/widgets/room_members_card.dart';
 import 'package:conta/screens/group/widgets/title_and_dropdown.dart';
 import 'package:conta/screens/group_settings/group_settings.dart';
+import 'package:conta/screens/home/bloc/groups/groups_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,10 @@ class _GroupScreenState extends State<GroupScreen> {
       final int groupId = ModalRoute.of(context)!.settings.arguments as int;
       groupBloc.add(GetGroupDetailsEvent(id: groupId));
     }
-    expenseBloc.add(ExpenseListRequested(groupId: ModalRoute.of(context)!.settings.arguments as int, month: DateTime.now().month, year: DateTime.now().year));
+    expenseBloc.add(ExpenseListRequested(
+        groupId: ModalRoute.of(context)!.settings.arguments as int,
+        month: DateTime.now().month,
+        year: DateTime.now().year));
   }
 
   @override
@@ -41,10 +45,17 @@ class _GroupScreenState extends State<GroupScreen> {
 
         if (state.status == GroupDetailStatus.failure) {
           return Scaffold(
-            body: Center(
-              child: Text(
-                'Erro ao carregar detalhes do grupo: ${state.errorMessage}',
-                style: const TextStyle(color: Colors.red),
+            appBar: AppBar(
+              title: const Text('Detalhes do grupo'),
+            ),
+            body: const Center(
+              child: Column(
+                children: [
+                  const Text(
+                    'Erro ao carregar detalhes do grupo',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
               ),
             ),
           );
@@ -89,7 +100,7 @@ class _GroupScreenState extends State<GroupScreen> {
               ),
             ],
           ),
-          body:  SingleChildScrollView(
+          body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

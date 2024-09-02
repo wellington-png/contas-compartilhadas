@@ -82,7 +82,7 @@ class _NewExpenseScreenState extends State<NewExpenseScreen> {
       child: BlocBuilder<GroupsBloc, GroupsState>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.bgPeach,
             appBar: AppBar(
               title: const Text(
                 _titleText,

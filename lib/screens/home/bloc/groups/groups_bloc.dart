@@ -13,6 +13,7 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
   GroupsBloc({required this.groupService}) : super(const GroupsState()) {
     on<GetGroupsEvent>(_onGetGroupsEvent);
     on<CreateGroupEvent>(_onCreateGroupEvent);
+    on<DeleteGroupEvent>(_onDeleteGroupEvent);
   }
 
   Future<void> _onGetGroupsEvent(
@@ -55,4 +56,28 @@ class GroupsBloc extends Bloc<GroupsEvent, GroupsState> {
       ),
     );
   }
+
+
+  Future<void> _onDeleteGroupEvent(
+    DeleteGroupEvent event,
+    Emitter<GroupsState> emit,
+  ) async {
+    emit(state.copyWith(status: GroupsStatus.loading));
+    final result = await groupService.delete(event.groupId);
+    result.fold(
+      (error) => emit(
+        state.copyWith(
+          status: GroupsStatus.failure,
+          errorMessage: error.message,
+        ),
+      ),
+      (_) => emit(
+        state.copyWith(
+          status: GroupsStatus.success,
+          groups: state.groups?.where((group) => group.id != event.groupId).toList(),
+        ),
+      ),
+    );
+  }
+
 }

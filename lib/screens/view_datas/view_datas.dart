@@ -1,5 +1,6 @@
 import 'package:conta/config/theme.dart';
 import 'package:conta/screens/view_datas/bloc/expense_com/expense_com_bloc.dart';
+import 'package:conta/screens/view_datas/bloc/balence/balence_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/balance_tab.dart';
@@ -23,8 +24,10 @@ class _ViewDatasScreenState extends State<ViewDatasScreen>
     return Scaffold(
       backgroundColor: AppColors.bgPeach,
       appBar: AppBar(
-        title: const Text('View Data'),
+        title: const Text('Visualizar Dados'),
+        centerTitle: true,
       ),
+
       body: Column(
         children: [
           const Divider(
@@ -50,28 +53,48 @@ class _ViewDatasScreenState extends State<ViewDatasScreen>
                       setState(() {
                         _currentIndex = index;
                       });
+                      if (index == 0) {
+                        context.read<BalanceBloc>().add(const BalanceRequested());
+                      }
                     },
                   ),
                   const SizedBox(height: 16),
                   BlocBuilder<ExpenseComBloc, ExpenseComState>(
-                    builder: (context, state) {
-                      if (state.status == ExpenseComStatus.loading) {
+                    builder: (context, expenseState) {
+                      if (expenseState.status == ExpenseComStatus.loading) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (state.status == ExpenseComStatus.failure) {
+                      } else if (expenseState.status == ExpenseComStatus.failure) {
                         return Center(
                           child: Text(
-                            state.errorMessage ?? 'Erro ao carregar dados.',
+                            expenseState.errorMessage ?? 'Erro ao carregar dados.',
                             style: const TextStyle(color: Colors.red),
                           ),
                         );
-                      } else if (state.status == ExpenseComStatus.success) {
-                        final expenses = state.expenses ?? [];
-                        return SizedBox(
-                          height: 200,
-                          child: PieChartWidget(
-                            currentIndex: _currentIndex,
-                            expenses: expenses,
-                          ),
+                      } else if (expenseState.status == ExpenseComStatus.success) {
+                        final expenses = expenseState.expenses ?? [];
+                        return BlocBuilder<BalanceBloc, BalanceState>(
+                          builder: (context, balanceState) {
+                            if (balanceState.status == BalanceStatus.loading) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (balanceState.status == BalanceStatus.failure) {
+                              return Center(child: Text('Falha ao carregar saldo: ${balanceState.errorMessage}'));
+                            } else if (balanceState.status == BalanceStatus.success && balanceState.balance != null) {
+                              final balance = balanceState.balance!;
+                              final totalIncome = balance.fixedIncome;
+                              final totalExpense = balance.totalExpense;
+
+                              return SizedBox(
+                                height: 200,
+                                child: PieChartWidget(
+                                  currentIndex: _currentIndex,
+                                  expenses: expenses,
+                                  totalIncome: totalIncome,
+                                  totalExpense: totalExpense,
+                                ),
+                              );
+                            }
+                            return const Center(child: Text('Nenhum dado disponível'));
+                          },
                         );
                       }
                       return const Center(child: Text('Selecione um grupo e uma data para visualizar despesas.'));

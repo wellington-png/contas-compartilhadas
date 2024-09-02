@@ -33,7 +33,7 @@ class TabButtons extends StatelessWidget {
               elevation: currentIndex == 0 ? 6 : 0,
             ),
             onPressed: () => onTabChanged(0),
-            child: const Text('Balance', style: TextStyle(fontSize: 14)),
+            child: const Text('Saldo', style: TextStyle(fontSize: 14)),
           ),
           const SizedBox(width: 8),
           ElevatedButton(
@@ -46,7 +46,7 @@ class TabButtons extends StatelessWidget {
               elevation: currentIndex == 1 ? 6 : 0,
             ),
             onPressed: () => onTabChanged(1),
-            child: const Text('Category', style: TextStyle(fontSize: 14)),
+            child: const Text('Despesas', style: TextStyle(fontSize: 14)),
           ),
           const SizedBox(width: 8),
         ],

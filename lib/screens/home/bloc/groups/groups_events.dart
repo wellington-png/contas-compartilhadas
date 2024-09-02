@@ -20,3 +20,12 @@ class CreateGroupEvent extends GroupsEvent {
   @override
   List<Object?> get props => [groupName];
 }
+
+class DeleteGroupEvent extends GroupsEvent {
+  final int groupId;
+
+  const DeleteGroupEvent(this.groupId);
+
+  @override
+  List<Object?> get props => [groupId];
+}

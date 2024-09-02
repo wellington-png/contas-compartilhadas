@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 
 class PieChartWidget extends StatelessWidget {
   final int currentIndex;
-  final List<ExpenseComparisonEntity> expenses; // Adicionado para receber dados
+  final List<ExpenseComparisonEntity> expenses;
+  final double totalIncome;
+  final double totalExpense;
 
   const PieChartWidget({
     super.key,
     required this.currentIndex,
-    required this.expenses, // Recebe a lista de despesas
+    required this.expenses,
+    this.totalIncome = 0.0,
+    this.totalExpense = 0.0,
   });
 
   @override
@@ -18,7 +22,6 @@ class PieChartWidget extends StatelessWidget {
 
     if (currentIndex == 1) {
       if (expenses.isEmpty) {
-        // Caso a lista de despesas esteja vazia
         sections = [
           PieChartSectionData(
             value: 1, // Um valor pequeno para mostrar um gráfico vazio
@@ -26,14 +29,13 @@ class PieChartWidget extends StatelessWidget {
             title: 'Sem Dados',
             radius: 60,
             titleStyle: const TextStyle(
-              fontSize: 16,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         ];
       } else {
-        // Calcular o total das despesas
         final totalExpense = expenses.fold(0.0, (sum, expense) => sum + expense.totalExpense);
 
         sections = expenses.map((expense) {
@@ -51,6 +53,35 @@ class PieChartWidget extends StatelessWidget {
           );
         }).toList();
       }
+    } else if (currentIndex == 0) {
+      final total = totalIncome + totalExpense;
+      final expensePercentage = total == 0 ? 0 : (totalExpense / total) * 100;
+      final incomePercentage = total == 0 ? 0 : (totalIncome / total) * 100;
+
+      sections = [
+        PieChartSectionData(
+          value: expensePercentage.toDouble(),
+          color: Colors.red,
+          title: '${expensePercentage.toStringAsFixed(1)}%',
+          radius: 60,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        PieChartSectionData(
+          value: incomePercentage.toDouble(),
+          color: Colors.green,
+          title: '${incomePercentage.toStringAsFixed(1)}%',
+          radius: 60,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ];
     } else {
       // Dados fixos para outros índices
       sections = [

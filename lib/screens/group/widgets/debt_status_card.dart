@@ -1,6 +1,5 @@
 import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
 import 'package:conta/screens/expenses/expenses.dart';
-// import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:conta/screens/group/widgets/debt_status_row.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +15,11 @@ class DebtStatusCard extends StatelessWidget {
       builder: (context, state) {
         final expenses = state.expenses;
         final dateFormat = DateFormat('dd/MM/yyyy');
+        
+        // Textos personalizados para os estados
+        final noExpensesText = 'Nenhuma despesa encontrada.';
+        final deleteFailureText = 'Não foi possível excluir a despesa.';
+
         return Card(
           elevation: 3,
           shape: RoundedRectangleBorder(
@@ -38,7 +42,6 @@ class DebtStatusCard extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                  
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ExpensesScreen(
                             groupId: groupId,
@@ -56,10 +59,20 @@ class DebtStatusCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                if (expenses == null)
-                  const Center(
+                if (state.status == ExpenseStatus.failure)
+                  Center(
                     child: Text(
-                      'Nenhuma despesa encontrada.',
+                      deleteFailureText,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                      ),
+                    ),
+                  )
+                else if (expenses == null || expenses.isEmpty)
+                  Center(
+                    child: Text(
+                      noExpensesText,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -89,14 +102,58 @@ class DebtStatusCard extends StatelessWidget {
                             ? const Icon(Icons.money)
                             : const Icon(Icons.attach_money),
                         name: expense.description,
-                        debtAmount: expense.amount.toString(),
+                        debtAmount: NumberFormat.currency(
+                                locale: 'pt_BR', symbol: 'R\$')
+                            .format(expense.amount),
                         subName: formattedDate,
+                        nameUser: expense.nameUser!,
+                        isFixad: expense.isFixed,
+                        onDelete: () {
+                          _showDeleteConfirmationDialog(context, expense.id!,
+                              () {
+                            deleteExpense(context, expense.id!);
+                          });
+                        },
                       );
                     },
                   ),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void deleteExpense(BuildContext context, int expenseId) {
+    context.read<ExpenseBloc>().add(DeleteExpenseRequested(expenseId));
+  }
+
+  void _showDeleteConfirmationDialog(
+      BuildContext context, int expenseId, void Function() onDelete) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Excluir Despesa'),
+          content:
+              const Text('Você tem certeza que deseja excluir esta despesa?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Dispara o evento de exclusão para o BLoC
+                onDelete();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Excluir'),
+            ),
+          ],
         );
       },
     );
