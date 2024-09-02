@@ -101,7 +101,7 @@ class _GroupScreenState extends State<GroupScreen> {
                   const SizedBox(height: 16),
                   const OverallBalanceCard(),
                   const SizedBox(height: 16),
-                  const InviteViaEmailCard(),
+                  InviteViaEmailCard(groupId: state.group!.id),
                   const SizedBox(height: 16),
                   DebtStatusCard(groupId: state.group!.id),
                 ],

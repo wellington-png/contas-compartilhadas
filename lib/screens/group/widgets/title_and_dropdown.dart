@@ -1,4 +1,4 @@
-import 'package:conta/config/routes/router.dart';
+import 'package:conta/screens/graficos/graficos.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +22,11 @@ class TitleAndDropdown extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(Routes.groupStatistics),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const GraficosScreen(),
+              ),
+            ),
             icon: const Icon(Icons.bar_chart, color: Colors.brown),
           )
         ],

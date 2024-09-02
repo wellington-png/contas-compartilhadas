@@ -11,6 +11,8 @@ extension UserDto on UserEntity {
           double.tryParse(json['fixed_income']?.toString() ?? '') ?? 0.0,
       accountType: AccountType.values.firstWhere(
         (element) => element.value == json['account_type'],
+        orElse: () => AccountType
+            .simple, // Substitua por um valor padrão adequado, se necessário
       ),
       avatar: Avatar.getByIdentifier(json['avatar'] ?? 'defaultAvatar'),
     );

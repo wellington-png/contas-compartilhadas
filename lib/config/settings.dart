@@ -23,7 +23,12 @@ class API {
   static String groupDetails(int id) => 'groups/$id/details/';
   static String groupInviteEmail(id) => 'groups/$id/invite-email/';
   static String removeMember(int id) => 'groups/$id/remove-member/';
-  // groups/8/add-expense
+  static String groupInviteQRCode(int id) => 'groups/$id/invite-qrcode/';
+  static String addMember(int id) => 'groups/$id/add-member/';
+  static  String groupMembers(int id) => 'groups/$id/members/';
+
+  static String expenseComparison(int id, int month, int year) => 'groups/$id/expense-comparison/?month=$month&year=$year';
+
   static String addExpense(int id) => 'groups/$id/add-expense/';
 
   // Endpoints de despesas

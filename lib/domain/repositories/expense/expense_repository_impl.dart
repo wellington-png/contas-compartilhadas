@@ -1,4 +1,6 @@
+import 'package:conta/domain/models/dto/expense/expense_comparison_dto.dart';
 import 'package:conta/domain/models/dto/expense/expense_dto.dart';
+import 'package:conta/domain/models/entities/expense/expense_comparison_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:conta/config/exceptions.dart';
@@ -56,7 +58,6 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   ) async {
     try {
       final DateFormat formatter = DateFormat('yyyy-MM-dd');
-
 
       var data = {
         "description": expense.description,
@@ -116,6 +117,35 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       return response.statusCode == 204
           ? const Right(true)
           : Left(ProjetoException(message: "Erro ao deletar despesa"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, List<ExpenseComparisonEntity>>>
+      expenseComparison(
+    int id,
+    int month,
+    int year,
+  ) async {
+    try {
+      final response = await _httpService.get(
+        path: API.expenseComparison(id, month, year),
+        isAuth: true,
+      );
+
+      return response.statusCode == 200
+          ? Right(
+              (response.data as List)
+                  .map<ExpenseComparisonEntity>(
+                    (e) => ExpenseComparisonDto.fromJson(e),
+                  )
+                  .toList(),
+            )
+          : Left(ProjetoException(message: "Erro ao comparar despesas"));
     } on DioException catch (e) {
       return Left(
         ProjetoException(message: e.response?.data['message'] ?? e.message),

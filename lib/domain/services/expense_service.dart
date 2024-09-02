@@ -1,3 +1,4 @@
+import 'package:conta/domain/models/entities/expense/expense_comparison_entity.dart';
 import 'package:conta/domain/models/entities/expense/expense_entity.dart';
 import 'package:conta/domain/repositories/expense/expense_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -38,4 +39,7 @@ class ExpenseService {
     return _expenseRepository.delete(id);
   }
 
+  Future<Either<ProjetoException, List<ExpenseComparisonEntity>>> expenseComparison(int id, int month, int year) async {
+    return _expenseRepository.expenseComparison(id, month, year);
+  }
 }

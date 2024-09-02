@@ -2,6 +2,7 @@ import 'package:conta/screens/expenses/bloc/expense/expense_bloc.dart';
 import 'package:conta/screens/group/bloc/group_details/group_details_bloc.dart';
 import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
 import 'package:conta/screens/navigation/navigation.dart';
+import 'package:conta/screens/view_datas/bloc/expense_com/expense_com_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ import 'package:conta/screens/login/bloc/login_bloc.dart';
 
 import 'package:conta/screens/register/register.dart';
 import 'package:conta/screens/register/bloc/register_bloc.dart';
+
+import 'package:conta/screens/view_datas/bloc/member/member_bloc.dart';
 
 class Routes {
   static const String home = '/home';
@@ -76,6 +79,12 @@ class Routes {
               ),
               BlocProvider(
                 create: (context) => ExpenseBloc(expenseService: getIt()),
+              ),
+              BlocProvider(
+                create: (context) => MemberBloc(groupService: getIt()),
+              ),
+              BlocProvider(
+                create: (context) => ExpenseComBloc(expenseService: getIt()),
               ),
             ], child: const NavigationScreen())
       };

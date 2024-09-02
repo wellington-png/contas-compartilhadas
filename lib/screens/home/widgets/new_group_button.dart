@@ -59,7 +59,7 @@ class NewGroupButton extends StatelessWidget {
   void _navigateToScanner(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => BarcodeScannerWithOverlay(),
+        builder: (context) => const BarcodeScannerWithOverlay(),
       ),
     );
   }

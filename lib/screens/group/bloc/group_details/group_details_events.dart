@@ -37,3 +37,13 @@ class RemoveMemberEvent extends GroupDetailsEvent {
   @override
   List<Object?> get props => [id, memberId];
 }
+
+class DeleteGroupEvent extends GroupDetailsEvent {
+  final int id;
+  const DeleteGroupEvent({
+    required this.id,
+  });
+
+  @override
+  List<Object?> get props => [id];
+}

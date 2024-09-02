@@ -1,11 +1,20 @@
+import 'package:conta/config/services/http_service_impl.dart';
+import 'package:conta/domain/repositories/group/group_repository.dart';
+import 'package:conta/domain/repositories/group/group_repository_impl.dart';
 import 'package:conta/screens/group/bloc/invite/invite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 
 class InviteViaEmailCard extends StatelessWidget {
-  const InviteViaEmailCard({super.key});
+  final int? groupId;
+  const InviteViaEmailCard({super.key, this.groupId});
 
-  void _showQRCodeModal(BuildContext context) {
+  Future<void> _showQRCodeModal(BuildContext context,
+      {required String qrCode}) async {
+    Uint8List decodedBytes = base64Decode(qrCode);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -31,14 +40,14 @@ class InviteViaEmailCard extends StatelessWidget {
                   width: 150,
                   height: 150,
                   color: Colors.grey[300],
-                  child: const Center(child: Text('QR Code Placeholder')),
+                  child: Image.memory(decodedBytes),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Close'),
+                  child: const Text('Fechar'),
                 ),
               ],
             ),
@@ -95,8 +104,29 @@ class InviteViaEmailCard extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.qr_code,
                           size: 30, color: Colors.grey),
-                      onPressed: () {
-                        _showQRCodeModal(context);
+                      onPressed: () async {
+                        if (groupId != null) {
+                          GroupRepository groupRepository = GroupRepositoryImpl(
+                              httpService: HttpServiceImpl());
+
+                          final result =
+                              await groupRepository.inviteQrcode(groupId!);
+
+                          result.fold(
+                            (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Erro ao carregar o QR Code: ${error.message}'),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            (qrCode) {
+                              _showQRCodeModal(context, qrCode: qrCode);
+                            },
+                          );
+                        }
                       },
                     ),
                   ],
@@ -125,12 +155,10 @@ class InviteViaEmailCard extends StatelessWidget {
                       onPressed: () {
                         String email = emailController.text.trim();
                         if (email.isNotEmpty) {
-                          final int groupId =
-                              ModalRoute.of(context)!.settings.arguments as int;
                           final inviteBloc =
                               BlocProvider.of<InviteBloc>(context);
-                          inviteBloc
-                              .add(SendInviteEvent(groupId: groupId, email: email));
+                          inviteBloc.add(
+                              SendInviteEvent(groupId: groupId!, email: email));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

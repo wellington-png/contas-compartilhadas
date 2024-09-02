@@ -1,7 +1,9 @@
 import 'package:conta/domain/models/dto/group/group_details_dto.dart';
 import 'package:conta/domain/models/dto/group/group_dto.dart';
+import 'package:conta/domain/models/dto/user/user_dto.dart';
 import 'package:conta/domain/models/entities/group/group_details_entity.dart';
 import 'package:conta/domain/models/entities/group/group_entity.dart';
+import 'package:conta/domain/models/entities/user/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -56,8 +58,7 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<Either<ProjetoException, GroupEntity>> create(
-      String name) async {
+  Future<Either<ProjetoException, GroupEntity>> create(String name) async {
     try {
       Response response = await _httpService.post(
         path: API.groupCreate,
@@ -97,7 +98,7 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<Either<ProjetoException, GroupDetailsEntity>> delete(int id) async {
+  Future<Either<ProjetoException, bool>> delete(int id) async {
     try {
       Response response = await _httpService.delete(
         path: API.groupDelete(id),
@@ -105,7 +106,7 @@ class GroupRepositoryImpl implements GroupRepository {
       );
 
       return response.statusCode == 204
-          ? Right(GroupDetailsDto.fromJson(response.data))
+          ? const Right(true)
           : Left(ProjetoException(message: "Erro ao deletar grupo"));
     } on DioException catch (e) {
       return Left(
@@ -130,6 +131,62 @@ class GroupRepositoryImpl implements GroupRepository {
       return response.statusCode == 204
           ? const Right("Membro removido com sucesso")
           : Left(ProjetoException(message: "Erro ao remover membro"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, bool>> addMember(int id, int memberId) async {
+    try {
+      final data = {"user": memberId};
+
+      Response response = await _httpService.post(
+        path: API.addMember(id),
+        isAuth: true,
+        data: data,
+      );
+      return response.statusCode == 201
+          ? const Right(true)
+          : Left(ProjetoException(message: "Erro ao adicionar membro"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, String>> inviteQrcode(int id) async {
+    try {
+      Response response = await _httpService.post(
+          path: API.groupInviteQRCode(id), isAuth: true);
+      return response.statusCode == 200
+          ? Right(response.data['qr_code'])
+          : Left(ProjetoException(message: "Erro ao enviar convite"));
+    } on DioException catch (e) {
+      return Left(
+        ProjetoException(message: e.response?.data['message'] ?? e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ProjetoException, List<UserEntity>>> members(int id) async {
+    try {
+      Response response = await _httpService.get(
+        path: API.groupMembers(id),
+        isAuth: true,
+      );
+      return response.statusCode == 200
+          ? Right(
+              response.data
+                  .map<UserEntity>((e) => UserDto.fromJson(e['user']))
+                  .toList(),
+            )
+          : Left(ProjetoException(message: "Erro ao carregar membros"));
     } on DioException catch (e) {
       return Left(
         ProjetoException(message: e.response?.data['message'] ?? e.message),

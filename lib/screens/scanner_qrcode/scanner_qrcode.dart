@@ -5,6 +5,8 @@ import 'package:conta/screens/scanner_qrcode/widgets/scanner_button_widgets.dart
 import 'package:conta/screens/scanner_qrcode/widgets/scanner_error_widget.dart';
 
 class BarcodeScannerWithOverlay extends StatefulWidget {
+  const BarcodeScannerWithOverlay({super.key});
+
   @override
   _BarcodeScannerWithOverlayState createState() =>
       _BarcodeScannerWithOverlayState();
@@ -26,7 +28,7 @@ class _BarcodeScannerWithOverlayState extends State<BarcodeScannerWithOverlay> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Scanner with Overlay Example app'),
+        title: const Text('Scanner QR Code'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -100,8 +102,6 @@ class ScannerOverlay extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: use `Offset.zero & size` instead of Rect.largest
-    // we need to pass the size to the custom paint widget
     final backgroundPath = Path()..addRect(Rect.largest);
 
     final cutoutPath = Path()
@@ -139,9 +139,6 @@ class ScannerOverlay extends CustomPainter {
       bottomRight: Radius.circular(borderRadius),
     );
 
-    // First, draw the background,
-    // with a cutout area that is a bit larger than the scan window.
-    // Finally, draw the scan window itself.
     canvas.drawPath(backgroundWithCutout, backgroundPaint);
     canvas.drawRRect(borderRect, borderPaint);
   }

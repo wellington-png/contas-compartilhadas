@@ -2,6 +2,7 @@
 import 'package:conta/screens/expenses/expenses.dart';
 import 'package:conta/screens/home/home.dart';
 import 'package:conta/screens/new_expense/new_expense.dart';
+import 'package:conta/screens/view_datas/view_datas.dart';
 import 'package:flutter/material.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -22,16 +23,19 @@ class _BaseState extends State<NavigationScreen> {
       HomeScreen(),
       NewExpenseScreen(),
       ExpensesScreen(),
+      ViewDatasScreen(),
     ];
     final List<IconData> icons = [
       Icons.person,
       Icons.add,
       Icons.money,
+      Icons.bar_chart,
     ];
     const List<String> labels = [
       'Perfil',
       'ADD',
       'Despesas',
+      'Graficos'
     ];
 
     return Scaffold(

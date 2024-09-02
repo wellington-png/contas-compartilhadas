@@ -58,6 +58,8 @@ class _GroupSettingsState extends State<GroupSettings> {
           ),
           TextButton(
             onPressed: () {
+              // final state = BlocProvider.of<GroupDetailsBloc>(context).state;
+              // final groupId = state.group?.id;
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },

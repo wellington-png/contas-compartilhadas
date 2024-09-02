@@ -1,15 +1,21 @@
+// Imports de pacotes
+import 'package:flutter/material.dart';
+
+// Imports de configuração e serviços
 import 'package:conta/config/services/http_service_impl.dart';
 import 'package:conta/config/theme.dart';
+
+// Imports de modelos e repositórios
 import 'package:conta/domain/models/entities/expense/expense_entity.dart';
 import 'package:conta/domain/repositories/expense/expense_repository_impl.dart';
+
+// Imports de widgets
 import 'package:conta/screens/expenses/widgets/app_bar.dart';
 import 'package:conta/screens/expenses/widgets/tab_buttons.dart';
-import 'package:conta/screens/group/widgets/debt_status_row.dart';
-import 'package:conta/screens/new_expense/new_expense.dart';
-import 'package:flutter/material.dart';
 
 class ExpensesScreen extends StatefulWidget {
   final int? groupId;
+
   const ExpensesScreen({super.key, this.groupId});
 
   @override
@@ -56,8 +62,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   }
 
   Future<void> _loadExpenses() async {
-    final expenseRepository =
-        ExpenseRepositoryImpl(httpService: HttpServiceImpl());
+    final expenseRepository = ExpenseRepositoryImpl(
+      httpService: HttpServiceImpl(),
+    );
 
     bool? isFixed;
     if (_currentIndex == 1) {
@@ -93,19 +100,10 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPeach,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) => const NewExpenseScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
       body: SafeArea(
         child: Column(
           children: [
+            // AppBar com seleção de data e navegação
             AppBarTitle(
               selectedDate: _selectedDate,
               changeMonth: _changeMonth,
@@ -116,6 +114,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               thickness: 1,
               color: Color.fromARGB(91, 158, 158, 158),
             ),
+            // Seção de abas
             Card(
               margin: const EdgeInsets.all(0),
               color: AppColors.bgPeach,
@@ -143,6 +142,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 ),
               ),
             ),
+            // Lista de despesas
             Expanded(
               child: Card(
                 margin: const EdgeInsets.all(18),
@@ -163,17 +163,31 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                       ),
                       const SizedBox(height: 16),
                       Expanded(
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemCount: _expenses.length,
-                          
+                          separatorBuilder: (context, index) {
+                            // Retorna um Divider para todos os itens, exceto o último
+                            return index < _expenses.length - 1
+                                ? const Divider(height: 1, color: Colors.grey)
+                                : const SizedBox
+                                    .shrink(); // Não exibe um Divider para o último item
+                          },
                           itemBuilder: (context, index) {
                             final expense = _expenses[index];
-                            return DebtStatusRow(
-                              icon: const Icon(Icons.money),
-                              name: expense.description,
-                              debtAmount: expense.amount.toString(),
-                              subName:
-                                  '${expense.dateSpent.day}/${expense.dateSpent.month}/${expense.dateSpent.year}',
+                            return ListTile(
+                              leading: Icon(
+                                expense.isFixed
+                                    ? Icons.lock
+                                    : Icons
+                                        .lock_open, // Exibe ícone diferente com base em isFixed
+                              ),
+                              title: Text(expense.description),
+                              subtitle: Text(
+                                  '${expense.dateSpent.day}/${expense.dateSpent.month}/${expense.dateSpent.year}'),
+                              trailing: Text(expense.amount.toString()),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 16.0), // Espaçamento interno
                             );
                           },
                         ),

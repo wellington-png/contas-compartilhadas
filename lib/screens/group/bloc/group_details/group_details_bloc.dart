@@ -15,6 +15,7 @@ class GroupDetailsBloc extends Bloc<GroupDetailsEvent, GroupDetailState> {
     on<GetGroupDetailsEvent>(_getGroupDetailsEventToState);
     on<UpdateGroupNameEvent>(updateGroupName);
     on<RemoveMemberEvent>(_onRemoveMember);
+    on<DeleteGroupEvent>(_onDeleteGroup);
   }
 
   Future<void> _getGroupDetailsEventToState(
@@ -102,6 +103,33 @@ class GroupDetailsBloc extends Bloc<GroupDetailsEvent, GroupDetailState> {
             ),
           );
         }
+      },
+    );
+  }
+
+  Future<void> _onDeleteGroup(
+    DeleteGroupEvent event,
+    Emitter<GroupDetailState> emit,
+  ) async {
+    emit(state.copyWith(status: GroupDetailStatus.loading));
+    final result = await groupService.delete(event.id);
+
+    result.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            status: GroupDetailStatus.failure,
+            errorMessage: error.message,
+          ),
+        );
+      },
+      (message) {
+        emit(
+          state.copyWith(
+            status: GroupDetailStatus.success,
+            group: null,
+          ),
+        );
       },
     );
   }
