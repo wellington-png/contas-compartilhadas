@@ -1,16 +1,50 @@
-# conta
+# README - Contas Compartilhadas
 
-A new Flutter project.
+## Trabalho Final - Programação para Dispositivos Móveis 2024
 
-## Getting Started
+### Visão Geral
+O aplicativo **Contas Compartilhadas** foi desenvolvido com o objetivo de simplificar o gerenciamento financeiro para grupos, como famílias, colegas de quarto ou amigos que compartilham despesas. A aplicação oferece funcionalidades para registrar, monitorar e visualizar todas as transações financeiras coletivas, garantindo que os membros do grupo possam manter um controle organizado e transparente sobre suas finanças.
 
-This project is a starting point for a Flutter application.
+### Funcionalidades Principais
+- **Cadastro de Renda**: Os usuários podem registrar suas fontes de renda, facilitando o controle dos recursos disponíveis para despesas compartilhadas.
+  
+- **Registro de Gastos**: Permite o registro de todas as despesas feitas pelo grupo, categorizando-as e associando-as a membros específicos.
 
-A few resources to get you started if this is your first Flutter project:
+- **Relatórios Financeiros**: Gera relatórios detalhados e visualizações gráficas, ajudando os usuários a entender melhor como o dinheiro está sendo gasto e identificar oportunidades de economia.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Gerenciamento de Grupos**: Possibilita a criação e gestão de grupos, onde cada usuário pode participar e colaborar no controle das finanças.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Histórico de Transações**: Mantém um histórico completo de todas as transações, permitindo revisões e auditorias de despesas passadas.
+
+### Tecnologias Utilizadas
+- **Flutter**: Para o desenvolvimento do frontend do aplicativo, garantindo uma experiência de usuário fluida e responsiva em dispositivos móveis.
+- **Django/Django REST Framework**: No backend, para o gerenciamento da lógica de negócios e armazenamento de dados.
+
+
+### Como Executar o Projeto
+1. **Clone o Repositório**:
+    ```bash
+    git clone https://github.com/wellington-png/contas-compartilhadas.git
+    cd contas-compartilhadas
+    ```
+
+2. **Instale as Dependências**:
+    ```bash
+    flutter pub get
+    ```
+
+3. **Execute o Aplicativo**:
+    ```bash
+    flutter run
+    ```
+
+### Estrutura do Projeto
+- **lib/**: Contém todo o código fonte do aplicativo, incluindo widgets, modelos, blocos e serviços.
+- **assets/**: Recursos estáticos como ícones e imagens.
+
+
+### Contribuições
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma _issue_ ou enviar um _pull request_.
+
+### Licença
+Este projeto está licenciado sob a [MIT License](LICENSE).
